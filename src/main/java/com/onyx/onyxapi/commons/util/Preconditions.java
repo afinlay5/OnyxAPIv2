@@ -17,6 +17,7 @@ public final class Preconditions {
 
     private static final String EXC_STR_MUST_BE_POSITIVE = "%s must be positive";
     private static final String EXC_STR_MISSING_OR_EMPTY = "excStr is required and is missing or blank";
+    private static final String EXC_STR_MUST_NOT_BE_NEGATIVE = "%s must be negative";
 
     /**
      * Validate that CharSequence is not null or blank
@@ -178,14 +179,51 @@ public final class Preconditions {
 
     //TODO - java docs
 
-    public static double requirePositive(double val, String excSubStr) {
+    public static double requireNonNegative(double val, String excSubStr) {
         requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
-        checkArgument(val >0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
+        checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
         return val;
     }
+
+    public static long requireNonNegative(long val, String excSubStr) {
+        requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
+        checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
+        return val;
+    }
+
+    public static float requireNonNegative(float val, String excSubStr) {
+        requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
+        checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
+        return val;
+    }
+
+    public static int requireNonNegative(int val, String excSubStr) {
+        requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
+        checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
+        return val;
+    }
+
+    public static short requireNonNegative(short val, String excSubStr) {
+        requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
+        checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
+        return val;
+    }
+
+    public static byte requireNonNegative(byte val, String excSubStr) {
+        requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
+        checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
+        return val;
+    }
+
+    public static double requirePositive(double val, String excSubStr) {
+        requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
+        checkArgument(val > 0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
+        return val;
+    }
+
     public static long requirePositive(long val, String excSubStr) {
         requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
-        checkArgument(val >0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
+        checkArgument(val > 0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
         return val;
     }
     public static float requirePositive(float val, String excSubStr) {
@@ -240,6 +278,7 @@ public final class Preconditions {
         checkArgument(val >minimum, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
         return val;
     }
+
 
     private Preconditions () {}
 }

@@ -9,13 +9,18 @@ import lombok.val;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
@@ -120,10 +125,14 @@ public final class NBABasketballReferenceDataSource {
         //TODO - In 2018 We said we would replace this with jSoup LOL........
 
         val targetXml = parseTargetXml(response, season);
-
-        return Map.of(PPG, getPPGFromXML(targetXml),
-                RPG, getRPGFromXML(targetXml),
-                APG, getAPGFromXML(targetXml));
+        if (targetXml.isEmpty())
+            throw new IllegalArgumentException("They didn't play that season!");
+        else
+            return Map.of(
+                    PPG, getPPGFromXML(targetXml),
+                    RPG, getRPGFromXML(targetXml),
+                    APG, getAPGFromXML(targetXml)
+            );
 
     }
 
@@ -159,18 +168,20 @@ public final class NBABasketballReferenceDataSource {
         }
     }
 
-    private Float getPPGFromXML(List<String> targetXml) {
+    private float getPPGFromXML(List<String> targetXml) {
         var targetXmlIt = targetXml.iterator();
 
-        while(targetXmlIt.hasNext()) {
-            val line = requireNotBlank(targetXmlIt.next(),CANNOT_PARSE_PPG_FROM_XML_EXC_STR);
+        while (targetXmlIt.hasNext()) {
+            val line = requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_PPG_FROM_XML_EXC_STR);
 
-            if (PPG_TARGET_XML_POINT.contentEquals(line.strip())){
-                val ppgXmlLine = requireNotBlank(targetXmlIt.next(),CANNOT_PARSE_PPG_FROM_XML_EXC_STR);
-                val ppgElementBeginIndx = requirePositive(ppgXmlLine.indexOf(XML_OPEN_TAG), "ppgElementBeginIndx");
-                val ppgElementEndIndx = requirePositive(ppgXmlLine.indexOf(XML_CLOSE_TAG), "ppgElementEndIndx");
+            if (PPG_TARGET_XML_POINT.contentEquals(line.strip())) {
+                val ppgXmlLine = requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_PPG_FROM_XML_EXC_STR);
+                val ppgElementBeginIndx = requireNonNegative(ppgXmlLine.indexOf(XML_CLOSE_TAG), "ppgElementBeginIndx") + 1;
+                var ppgAsStr = removeIrrelevantXmlTagsFromLine(ppgXmlLine.substring(ppgElementBeginIndx));
+                val ppgElementEndIndx = requirePositive(ppgAsStr.indexOf(XML_OPEN_TAG), "ppgElementEndIndx");
 
-                val ppgAsStr = removeIrrelevantXmlTagsFromLine(ppgXmlLine.substring(ppgElementBeginIndx, ppgElementEndIndx-1).strip());
+                ppgAsStr = ppgAsStr.substring(0, ppgElementEndIndx).strip();
+
                 return Float.parseFloat(ppgAsStr);
             }
         }
@@ -178,18 +189,20 @@ public final class NBABasketballReferenceDataSource {
         throw new IllegalArgumentException(CANNOT_PARSE_PPG_FROM_XML_EXC_STR);
     }
 
-    private Float getRPGFromXML(List<String> targetXml) {
+    private float getRPGFromXML(List<String> targetXml) {
         var targetXmlIt = targetXml.iterator();
 
-        while(targetXmlIt.hasNext()) {
-            val line = requireNotBlank(targetXmlIt.next(),CANNOT_PARSE_RPG_FROM_XML_EXC_STR);
+        while (targetXmlIt.hasNext()) {
+            val line = requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_RPG_FROM_XML_EXC_STR);
 
-            if (RPG_TARGET_XML_POINT.contentEquals(line.strip())){
-                val rpgXmlLine = requireNotBlank(targetXmlIt.next(),CANNOT_PARSE_RPG_FROM_XML_EXC_STR);
-                val rpgElementBeginIndx = requirePositive(rpgXmlLine.indexOf(XML_OPEN_TAG), "rpgElementBeginIndx");
-                val rpgElementEndIndx = requirePositive(rpgXmlLine.indexOf(XML_CLOSE_TAG), "rpgElementEndIndx");
+            if (RPG_TARGET_XML_POINT.contentEquals(line.strip())) {
+                val rpgXmlLine = requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_RPG_FROM_XML_EXC_STR);
+                val rpgElementBeginIndx = requireNonNegative(rpgXmlLine.indexOf(XML_CLOSE_TAG), "rpgElementBeginIndx") + 1;
+                var rpgAsStr = removeIrrelevantXmlTagsFromLine(rpgXmlLine.substring(rpgElementBeginIndx));
+                val rpgElementEndIndx = requirePositive(rpgAsStr.indexOf(XML_OPEN_TAG), "rpgElementEndIndx");
 
-                val rpgAsStr = rpgXmlLine.substring(rpgElementBeginIndx, rpgElementEndIndx-1).strip();
+                rpgAsStr = rpgAsStr.substring(0, rpgElementEndIndx).strip();
+
                 return Float.parseFloat(rpgAsStr);
             }
         }
@@ -197,18 +210,20 @@ public final class NBABasketballReferenceDataSource {
         throw new IllegalArgumentException(CANNOT_PARSE_RPG_FROM_XML_EXC_STR);
     }
 
-    private Float getAPGFromXML(List<String> targetXml) {
+    private float getAPGFromXML(List<String> targetXml) {
         var targetXmlIt = targetXml.iterator();
 
-        while(targetXmlIt.hasNext()) {
-            val line = requireNotBlank(targetXmlIt.next(),CANNOT_PARSE_APG_FROM_XML_EXC_STR);
+        while (targetXmlIt.hasNext()) {
+            val line = requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_APG_FROM_XML_EXC_STR);
 
-            if (APG_TARGET_XML_POINT.contentEquals(line.strip())){
-                val apgXmlLine = requireNotBlank(targetXmlIt.next(),CANNOT_PARSE_APG_FROM_XML_EXC_STR);
-                val apgElementBeginIndx = requirePositive(apgXmlLine.indexOf(XML_OPEN_TAG), "apgElementBeginIndx");
-                val apgElementEndIndx = requirePositive(apgXmlLine.indexOf(XML_CLOSE_TAG), "apgElementEndIndx");
+            if (APG_TARGET_XML_POINT.contentEquals(line.strip())) {
+                val apgXmlLine = requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_APG_FROM_XML_EXC_STR);
+                val apgElementBeginIndx = requireNonNegative(apgXmlLine.indexOf(XML_CLOSE_TAG), "apgElementBeginIndx") + 1;
+                var apgAsStr = removeIrrelevantXmlTagsFromLine(apgXmlLine.substring(apgElementBeginIndx));
+                val apgElementEndIndx = requirePositive(apgAsStr.indexOf(XML_OPEN_TAG), "apgElementEndIndx");
 
-                val apgAsStr = apgXmlLine.substring(apgElementBeginIndx, apgElementEndIndx-1).strip();
+                apgAsStr = apgAsStr.substring(0, apgElementEndIndx).strip();
+
                 return Float.parseFloat(apgAsStr);
             }
         }
@@ -226,7 +241,8 @@ public final class NBABasketballReferenceDataSource {
 
        return fmtdLine;
     }
+
     private String removeIrrelevantXmlTagFromLine(String line, String tag) {
-        return line.replace(line, tag);
+        return line.replace(tag, "");
     }
 }
