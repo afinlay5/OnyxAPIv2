@@ -15,9 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
@@ -44,6 +42,7 @@ public final class NBABasketballReferenceDataSource {
     private static final String APG_TARGET_XML_POINT = "data-stat=\"ast_per_g\"";
 
     private static final Charset TARGET_ENCODING = UTF_8;
+    private static final Set<String> IRRELEVANT_XML_TAGS = Set.of("<strong>");
 
 
     private final ExecutorService executorService;
@@ -128,7 +127,6 @@ public final class NBABasketballReferenceDataSource {
 
     }
 
-
     private List<String> parseTargetXml(HttpResponse<InputStream> response, int season) {
         try(val responseBody = response.body(); val scanner = new Scanner(responseBody, TARGET_ENCODING)) {
             val begin = new StringBuilder("id=\"per_game.").append(season).append("\"");
@@ -172,7 +170,7 @@ public final class NBABasketballReferenceDataSource {
                 val ppgElementBeginIndx = requirePositive(ppgXmlLine.indexOf(XML_OPEN_TAG), "ppgElementBeginIndx");
                 val ppgElementEndIndx = requirePositive(ppgXmlLine.indexOf(XML_CLOSE_TAG), "ppgElementEndIndx");
 
-                val ppgAsStr = ppgXmlLine.substring(ppgElementBeginIndx, ppgElementEndIndx-1).strip();
+                val ppgAsStr = removeIrrelevantXmlTagsFromLine(ppgXmlLine.substring(ppgElementBeginIndx, ppgElementEndIndx-1).strip());
                 return Float.parseFloat(ppgAsStr);
             }
         }
@@ -216,5 +214,19 @@ public final class NBABasketballReferenceDataSource {
         }
 
         throw new IllegalArgumentException(CANNOT_PARSE_APG_FROM_XML_EXC_STR);
+    }
+
+    private String removeIrrelevantXmlTagsFromLine(String line) {
+       String fmtdLine = line;
+       val irrelevantTagsIt = IRRELEVANT_XML_TAGS.iterator();
+
+       do {
+           fmtdLine = removeIrrelevantXmlTagFromLine(fmtdLine, irrelevantTagsIt.next());
+       } while (irrelevantTagsIt.hasNext());
+
+       return fmtdLine;
+    }
+    private String removeIrrelevantXmlTagFromLine(String line, String tag) {
+        return line.replace(line, tag);
     }
 }
