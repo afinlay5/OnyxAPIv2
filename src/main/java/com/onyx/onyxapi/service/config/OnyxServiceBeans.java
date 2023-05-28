@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class OnyxServiceBeans {
 
     @Bean
-    private NBAStatisticsService nbaStatService() {
+    public NBAStatisticsService nbaStatService() {
         return new NBAStatisticsService();
     }
 }
