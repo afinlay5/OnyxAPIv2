@@ -125,10 +125,14 @@ public final class NBABasketballReferenceDataSource {
         //TODO - In 2018 We said we would replace this with jSoup LOL........
 
         val targetXml = parseTargetXml(response, season);
-
-        return Map.of(PPG, getPPGFromXML(targetXml),
-                RPG, getRPGFromXML(targetXml),
-                APG, getAPGFromXML(targetXml));
+        if (targetXml.isEmpty())
+            throw new IllegalArgumentException("They didn't play that season!");
+        else
+            return Map.of(
+                    PPG, getPPGFromXML(targetXml),
+                    RPG, getRPGFromXML(targetXml),
+                    APG, getAPGFromXML(targetXml)
+            );
 
     }
 
