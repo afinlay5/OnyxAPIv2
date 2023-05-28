@@ -71,6 +71,7 @@ public final class Preconditions {
      */
     @SafeVarargs
     public static <K, V> Map<K, V> requireMapHasKeys(Map<K, V> map, String excStr, K ... keys) {
+        //TODO - IntelliJ CodeSense complaint: Return value of the method is never used?
         val set = Stream.of(requireArrayNotEmpty(keys, excStr))
                 .collect(Collectors.toUnmodifiableSet());
         return requireMapHasKeys(map, set, excStr);
@@ -101,6 +102,7 @@ public final class Preconditions {
      * @param <T> object Type
      */
     public static <T> T requireArgNonNull(T val, String excStr) {
+        //TODO - IntelliJ CodeSense complaint: Return value of the method is never used?
         requireNotBlank(excStr, EXC_STR_MISSING_OR_EMPTY);
 
         if (val==null) {
@@ -121,6 +123,7 @@ public final class Preconditions {
      * @param <R> Map<Key, Value>
      */
     public static <K, V, R extends Map<K, V>> R requireMapNotEmpty (R map, String excStr) {
+        //TODO - IntelliJ CodeSense complaint: Return value of the method is never used?
         requireNotBlank(excStr, EXC_STR_MISSING_OR_EMPTY);
 
         if (map == null || map.isEmpty()) {
@@ -164,6 +167,7 @@ public final class Preconditions {
      * @param <R> Collection of a Type
      */
     public static <T, R extends Collection<T>> R requireCollectionNotEmpty (R collection, String excStr) {
+        //TODO - IntelliJ CodeSense complaint: Return value of the method is never used?
         requireNotBlank(excStr, EXC_STR_MISSING_OR_EMPTY);
 
         if (collection == null || collection.isEmpty()) {
