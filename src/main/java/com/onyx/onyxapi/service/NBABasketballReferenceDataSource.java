@@ -105,6 +105,8 @@ public final class NBABasketballReferenceDataSource {
         Stream<String> htmlContent;
         try(var responseBody = response.body()) {
             htmlContent = new BufferedReader(new InputStreamReader(responseBody, TARGET_ENCODING)).lines();
+
+            htmlContent.forEach(System.out::println);
         } catch (IOException ioExc) {
             throw new UncheckedIOException(ioExc);
         }
