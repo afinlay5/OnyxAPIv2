@@ -4,6 +4,7 @@ import com.onyx.onyxapi.commons.model.BasketballPlayerInfo;
 import com.onyx.onyxapi.commons.model.BasketballPlayerStatisticResponse;
 import com.onyx.onyxapi.commons.model.BasketballStatisticsDataSource;
 import com.onyx.onyxapi.service.BasketballStatisticalService;
+import lombok.val;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.CompletableFuture;
@@ -32,7 +33,7 @@ public final class BasketballStatisticsController {
                                                                                  @PathVariable String lastName,
                                                                                  @PathVariable int season,
                                                                                  @RequestHeader(BASKETBALL_LEAGUE_DATA_SOURCE) String basketballLeagueDataSourceHeader) {
-        var basketballLeagueDataSource = BasketballStatisticsDataSource.fmtInsensitiveValueOf(basketballLeagueDataSourceHeader);
+        val basketballLeagueDataSource = BasketballStatisticsDataSource.fmtInsensitiveValueOf(basketballLeagueDataSourceHeader);
 
         return basketballStatisticalService.getNBABasicStats(basketballLeagueDataSource, new BasketballPlayerInfo(firstName, lastName), season);
     }
