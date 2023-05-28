@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public final class OnyxBasketballServiceBeans {
+public class OnyxBasketballServiceBeans {
     @Bean
     public NBAPlayerStatisticsService nbaStatisticsService() {
         return new NBAPlayerStatisticsService();

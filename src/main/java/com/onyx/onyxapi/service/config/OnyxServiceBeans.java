@@ -1,8 +1,12 @@
 package com.onyx.onyxapi.service.config;
 
+import com.onyx.onyxapi.dao.config.OnyxDAOBeans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-@Import(OnyxBasketballServiceBeans.class)
+@Import({
+        OnyxDAOBeans.class,
+        OnyxBasketballServiceBeans.class
+})
 @Configuration
-public final class OnyxServiceBeans { }
+public class OnyxServiceBeans { }

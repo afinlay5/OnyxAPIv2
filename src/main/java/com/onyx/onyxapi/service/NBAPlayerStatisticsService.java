@@ -13,9 +13,9 @@ public final class NBAPlayerStatisticsService implements BasketballLeaguePlayerS
     @Override
     public CompletableFuture<BasicBasketballStatistics> getBasicPlayerStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
                                                                             String firstName, String lastName, int season) {
-        switch (basketballStatisticsDataSource) {
+       return switch (basketballStatisticsDataSource) {
             case BASKETBALL_REFERENCE -> basketballLeagueDataSourceFactory.nbaBasketballReferenceDataSource
                     .getBasicStatistics(firstName, lastName, season);
-        }
+        };
     }
 }
