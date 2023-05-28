@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 @Getter
 @RequiredArgsConstructor
 @Service
-public final class BasketballStatisticalServiceFactory {
-    private final NBAPlayerStatisticsService nbaPlayerStatisticsService;
+public final class BasketballLeagueDataSourceFactory {
+    NBABasketballReferenceDataSource nbaBasketballReferenceDataSource;
 }

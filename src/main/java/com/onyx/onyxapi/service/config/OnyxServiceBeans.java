@@ -1,14 +1,8 @@
 package com.onyx.onyxapi.service.config;
 
-import com.onyx.onyxapi.service.NBAStatisticsService;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
+@Import(OnyxBasketballServiceBeans.class)
 @Configuration
-public class OnyxServiceBeans {
-
-    @Bean
-    public NBAStatisticsService nbaStatService() {
-        return new NBAStatisticsService();
-    }
-}
+public final class OnyxServiceBeans { }

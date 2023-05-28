@@ -24,6 +24,9 @@ dependencies {
 //	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 //	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("com.google.guava:guava:32.0.0-jre")
+	implementation("org.apache.commons:commons-lang3:3.12.0")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
