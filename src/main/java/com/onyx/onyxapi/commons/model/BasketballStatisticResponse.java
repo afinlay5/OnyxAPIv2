@@ -1,7 +1,5 @@
-package com.onyx.onyxapi.service;
+package com.onyx.onyxapi.commons.model;
 
-import com.onyx.onyxapi.commons.model.BasicBasketballStatistics;
-import com.onyx.onyxapi.commons.model.BasketballPlayerInfo;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
