@@ -1,4 +1,4 @@
-package com.onyx.onyx;
+package com.onyx.onyxapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
