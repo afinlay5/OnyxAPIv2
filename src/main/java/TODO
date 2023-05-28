@@ -1,0 +1,14 @@
+
+1) Configure Spotless
+
+2) Test a native image as standalone vs IDE
+
+3) Modularize
+
+4) Use JPA
+
+5) Use JDBC
+
+6) Multi ORM?
+
+7) Add Logging
