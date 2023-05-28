@@ -1,4 +1,4 @@
-package com.onyx.onyxapi.commons;
+package com.onyx.onyxapi.commons.util;
 
 import org.apache.commons.lang3.StringUtils;
 

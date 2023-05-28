@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.google.guava:guava:32.0.0-jre")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
+	implementation("org.apache.commons:commons-collections4:4.4")
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")

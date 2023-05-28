@@ -1,8 +1,8 @@
-package com.onyx.onyxapi.commons;
+package com.onyx.onyxapi.commons.model;
 
 import java.util.Locale;
 
-import static com.onyx.onyxapi.commons.Preconditions.requireNotBlank;
+import static com.onyx.onyxapi.commons.util.Preconditions.requireNotBlank;
 
 public enum BasketballStatisticsDataSource {
     BASKETBALL_REFERENCE;

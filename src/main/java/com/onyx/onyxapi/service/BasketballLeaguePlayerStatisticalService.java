@@ -1,7 +1,7 @@
 package com.onyx.onyxapi.service;
 
-import com.onyx.onyxapi.commons.BasicBasketballStatistics;
-import com.onyx.onyxapi.commons.BasketballStatisticsDataSource;
+import com.onyx.onyxapi.commons.model.BasicBasketballStatistics;
+import com.onyx.onyxapi.commons.model.BasketballStatisticsDataSource;
 
 import java.util.concurrent.CompletableFuture;
 

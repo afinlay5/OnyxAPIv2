@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public final class BasketballLeagueDataSourceFactory {
-    NBABasketballReferenceDataSource nbaBasketballReferenceDataSource;
+    private final NBABasketballReferenceDataSource nbaBasketballReferenceDataSource;
 }
