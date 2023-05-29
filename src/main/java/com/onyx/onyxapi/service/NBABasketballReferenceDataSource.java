@@ -126,7 +126,7 @@ public final class NBABasketballReferenceDataSource {
     private Map<String, Float> rawParseHtmlForBasicStats(HttpResponse<InputStream> response, int season) {
         val targetXml = parseTargetXml(response, season);
         if (targetXml.isEmpty())
-            throw new BasketballStatisticsNotFoundException(String.format("Player queried did not play in NBA for the [%d-%d] season", season, season + 1));
+            throw new BasketballStatisticsNotFoundException(String.format("Player queried did not play in NBA for the [%d-%d] season", season - 1, season));
         else
             return Map.of(
                     PPG, getPPGFromXML(targetXml),
