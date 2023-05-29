@@ -44,7 +44,7 @@ public final class NBABasketballReferenceDataSource {
     private static final String PPG = "PPG";
 
     private static final String PPG_TARGET_XML_POINT = "data-stat=\"pts_per_g\"";
-    private static final String RPG_TARGET_XML_POINT = "data-stat=\"ast_per_g\"";
+    private static final String RPG_TARGET_XML_POINT = "data-stat=\"trb_per_g\"";
     private static final String APG_TARGET_XML_POINT = "data-stat=\"ast_per_g\"";
 
     private static final Charset TARGET_ENCODING = UTF_8;

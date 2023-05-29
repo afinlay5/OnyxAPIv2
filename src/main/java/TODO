@@ -12,6 +12,4 @@
 
 7) Add Logging
 
-8) Controller Advice
-
-9) IllegalArg vs Custom Exception?
+8) Configure out Controller Advice
