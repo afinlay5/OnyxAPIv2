@@ -1,1 +1,1 @@
-web: java -Dserver.port=44201 $JAVA_OPTS -jar build/libs/onyxapi-0.0.1-SNAPSHOT.jar
+web: java $JAVA_OPTS -jar build/libs/onyxapi-0.0.1-SNAPSHOT.jar
