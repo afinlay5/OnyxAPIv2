@@ -2,6 +2,7 @@ package com.onyx.onyxapi.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.http.ProblemDetail;
 
 import javax.annotation.Nonnull;
@@ -9,7 +10,8 @@ import java.net.URI;
 
 /* RFC 7807 Compliant HTTP API Problem Details */
 @RequiredArgsConstructor
-public class OnyxApiProblemDetail extends ProblemDetail {
+@Value
+public final class OnyxApiProblemDetail extends ProblemDetail {
 
     @Getter
     private final String additionalInformation;

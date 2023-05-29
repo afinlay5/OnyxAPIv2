@@ -1,12 +1,12 @@
 package com.onyx.onyxapi.commons.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 
 @Builder
-@Data
-public final class BasicBasketballStatistics {
+@Value
+public class BasicBasketballStatistics {
     //NOTE TO SELF - Might be more efficient for OSs to handle float vs double
 
     private final int season;
