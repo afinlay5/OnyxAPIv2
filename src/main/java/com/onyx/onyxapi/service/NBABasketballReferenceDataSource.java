@@ -71,7 +71,7 @@ public final class NBABasketballReferenceDataSource {
                      .rpg(parsedHtmlMap.get(RPG))
                      .apg(parsedHtmlMap.get(APG))
                  .build();
-            } else return BasicBasketballStatistics.badInstanceForSeason(season);
+            } else throw new BasketballStatisticsNotFoundException("Player does not exist :(");
         }, executorService);
     }
 
@@ -167,6 +167,7 @@ public final class NBABasketballReferenceDataSource {
             throw new UncheckedIOException(ioExc);
         }
     }
+
 
     private float getPPGFromXML(List<String> targetXml) {
         var targetXmlIt = targetXml.iterator();
