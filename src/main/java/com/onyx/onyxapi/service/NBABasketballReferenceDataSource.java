@@ -63,15 +63,20 @@ public final class NBABasketballReferenceDataSource {
             if (HttpStatus.OK.value() == response.statusCode()) {
                 val parsedHtmlMap = rawParseHtmlForBasicStats(response, season);
 
-                requireMapHasKeys(parsedHtmlMap, "Could not find one or more basic stats" ,PPG, RPG, APG);
+                requireMapHasKeys(parsedHtmlMap, "Could not find one or more basic stats", PPG, RPG, APG);
 
                 return BasicBasketballStatistics.builder()
-                     .season(season)
-                     .ppg(parsedHtmlMap.get(PPG))
-                     .rpg(parsedHtmlMap.get(RPG))
-                     .apg(parsedHtmlMap.get(APG))
-                 .build();
-            } else throw new BasketballStatisticsNotFoundException("Player does not exist :(");
+                        .season(season)
+                        .ppg(parsedHtmlMap.get(PPG))
+                        .rpg(parsedHtmlMap.get(RPG))
+                        .apg(parsedHtmlMap.get(APG))
+                        .build();
+            } else {
+                throw BasketballStatisticsNotFoundException.newBuilder()
+                        .withTitle("No Data Found for Specified Player")
+                        .withDetail("Player does not exist :(")
+                        .build();
+            }
         }, executorService);
     }
 
@@ -126,7 +131,10 @@ public final class NBABasketballReferenceDataSource {
     private Map<String, Float> rawParseHtmlForBasicStats(HttpResponse<InputStream> response, int season) {
         val targetXml = parseTargetXml(response, season);
         if (targetXml.isEmpty())
-            throw new BasketballStatisticsNotFoundException(String.format("Player queried did not play in NBA for the [%d-%d] season", season - 1, season));
+            throw BasketballStatisticsNotFoundException.newBuilder()
+                    .withTitle("No Season Data for Player")
+                    .withDetail(String.format("Player queried did not play in NBA for the [%d-%d] season", season - 1, season))
+                    .build();
         else
             return Map.of(
                     PPG, getPPGFromXML(targetXml),
