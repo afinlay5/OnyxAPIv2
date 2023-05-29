@@ -5,6 +5,10 @@ import com.onyx.onyxapi.service.config.OnyxServiceBeans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-@Import({OnyxServiceBeans.class, OnyxApiControllerAdvice.class})
+@Import({
+        RestAPIControllers.class,
+        OnyxApiControllerAdvice.class,
+        OnyxServiceBeans.class,
+})
 @Configuration
 public class OnyxApiBeans {}

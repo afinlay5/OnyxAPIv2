@@ -1,14 +1,18 @@
 package com.onyx.onyxapi.service.config;
 
 import com.onyx.onyxapi.commons.config.MetadataCommonBeans;
-import com.onyx.onyxapi.service.NBABasketballReferenceDataSource;
+import com.onyx.onyxapi.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import java.util.concurrent.ExecutorService;
 
-@Import(MetadataCommonBeans.class)
+@Import({MetadataCommonBeans.class,
+        BasketballStatisticalServiceFactory.class,
+        BasketballStatisticalService.class,
+        NBAPlayerStatisticsService.class,
+        BasketballLeagueDataSourceFactory.class})
 @Configuration
 public class OnyxBasketballServiceBeans {
 
