@@ -14,7 +14,4 @@ public final class BasicBasketballStatistics {
     private final float rpg;
     private final float apg;
 
-    public static BasicBasketballStatistics badInstanceForSeason(int season) {
-        return new BasicBasketballStatisticsBuilder().season(season).build();
-    }
 }
