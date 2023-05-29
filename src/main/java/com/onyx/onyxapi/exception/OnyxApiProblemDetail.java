@@ -8,6 +8,8 @@ import org.springframework.http.ProblemDetail;
 import javax.annotation.Nonnull;
 import java.net.URI;
 
+//TODO - @Equals and hashcode Lombok complaint
+
 /* RFC 7807 Compliant HTTP API Problem Details */
 @RequiredArgsConstructor
 @Value
