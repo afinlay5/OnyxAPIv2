@@ -20,7 +20,7 @@ public class OnyxApiControllerAdvice {
     /**
      * HTTP 500: Internal Server Error Handler
      *
-     * @param exc               Exception triggering Error Response
+     * @param exc               {@link IllegalArgumentException} triggering Error Response
      * @param servletWebRequest web context
      * @return {@link ResponseEntity} wrapping RFC 7807 Problem Details response
      */
@@ -41,7 +41,7 @@ public class OnyxApiControllerAdvice {
      * HTTP 404: Not Found Error Handler
      * <p> Basketball Statistic were not found </p>
      *
-     * @param exc               Exception triggering Error Response
+     * @param exc               {@link IllegalArgumentException} triggering Error Response
      * @param servletWebRequest web context
      * @return {@link ResponseEntity} wrapping RFC 7807 Problem Details response
      */
@@ -57,5 +57,28 @@ public class OnyxApiControllerAdvice {
                 .withAdditionalInformation("Some Additional Info")
                 .build(), HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * HTTP 404: Bad Request Handler
+     * <p> Invalid input supplied to API</p>
+     *
+     * @param exc               {@link IllegalArgumentException} triggering Error Response
+     * @param servletWebRequest web context
+     * @return {@link ResponseEntity} wrapping RFC 7807 Problem Details response
+     */
+    @ExceptionHandler(BasketballStatisticsNotFoundException.class)
+    public ResponseEntity<OnyxApiProblemDetail> notFoundHandler(IllegalArgumentException exc, ServletWebRequest servletWebRequest) {
+        var request = requireNonNull(servletWebRequest.getRequest(), "request is required but is missing");
+
+        return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
+                .withType(URI.create("/type"))
+                .withTitle("Title")
+                .withDetail(exc.getMessage())
+                .withInstance(URI.create(request.getContextPath()))
+                .withAdditionalInformation("Some Additional Info")
+                .build(), HttpStatus.BAD_REQUEST);
+    }
+
+
 
 }

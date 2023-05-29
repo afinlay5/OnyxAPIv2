@@ -1,5 +1,6 @@
 package com.onyx.onyxapi.commons.util;
 
+import com.google.common.collect.Range;
 import lombok.val;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,9 +16,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 /* Validates input for legal arguments */
 public final class Preconditions {
 
-    private static final String EXC_STR_MUST_BE_POSITIVE = "%s must be positive";
     private static final String EXC_STR_MISSING_OR_EMPTY = "excStr is required and is missing or blank";
+    private static final String EXC_SUBSTR_MISSING_OR_EMPTY = "excStr is required and is missing or blank";
+    private static final String EXC_STR_MUST_BE_POSITIVE = "%s must be positive";
     private static final String EXC_STR_MUST_NOT_BE_NEGATIVE = "%s must be negative";
+    private static final String EXC_STR_WITHIN_RANGE = " %s must be within range %d-%d";
 
     /**
      * Validate that Map is not null, empty,or contains a null value
@@ -275,7 +278,6 @@ public final class Preconditions {
         return val;
     }
 
-
     /**
      * Validate that float {@code val} is non-negative
      *
@@ -403,5 +405,22 @@ public final class Preconditions {
         return val;
     }
 
-    private Preconditions () {}
+    private Preconditions() {
+    }
+
+    /**
+     * Validate that int {@code val} is within inclusive range of (@code from} - {@code to}
+     *
+     * @param val       to validate
+     * @param from      beginning of range, inclusive
+     * @param to        beginning of range, inclusive
+     * @param excSubStr Exception Substring supplied to IAE
+     * @throws IllegalArgumentException if {@code val} is not within range of {@code from} - {@code to}
+     */
+    public static void requireWithinRangeInclusive(int val, int from, int to, String excSubStr) {
+        requireArgNonNull(excSubStr, EXC_SUBSTR_MISSING_OR_EMPTY);
+
+        if (!Range.closed(from, to).contains(val))
+            throw new IllegalArgumentException(String.format(EXC_STR_WITHIN_RANGE, val, from, to));
+    }
 }
