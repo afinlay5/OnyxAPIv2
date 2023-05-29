@@ -1,6 +1,7 @@
 package com.onyx.onyxapi.service;
 
 import com.google.common.collect.ImmutableList;
+import com.onyx.onyxapi.commons.exception.BasketballStatisticsNotFoundException;
 import com.onyx.onyxapi.commons.exception.OnyxInternalServerErrorException;
 import com.onyx.onyxapi.commons.model.BasicBasketballStatistics;
 import com.onyx.onyxapi.commons.util.ConcurrentUtil;
@@ -118,15 +119,14 @@ public final class NBABasketballReferenceDataSource {
     }
 
     private Map<String, Float> parseHtmlForBasicStats(HttpResponse<InputStream> response, int season) {
+        //TODO - In 2018 We said we would replace this with jSoup LOL........
         throw new NotImplementedException("Let's use jsoup for this someday");
     }
 
     private Map<String, Float> rawParseHtmlForBasicStats(HttpResponse<InputStream> response, int season) {
-        //TODO - In 2018 We said we would replace this with jSoup LOL........
-
         val targetXml = parseTargetXml(response, season);
         if (targetXml.isEmpty())
-            throw new IllegalArgumentException("They didn't play that season!");
+            throw new BasketballStatisticsNotFoundException(String.format("Player queried did not play in NBA for the [%d-%d] season", season, season + 1));
         else
             return Map.of(
                     PPG, getPPGFromXML(targetXml),

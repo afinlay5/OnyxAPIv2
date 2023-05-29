@@ -1,7 +1,10 @@
 package com.onyx.onyxapi.commons.exception;
 
-public class OnyxInternalServerErrorException extends RuntimeException{
-    public OnyxInternalServerErrorException(String cause, Throwable throwable) {
-        super(cause, throwable);
+// @ResponseStatus is still not great here.
+public final class OnyxInternalServerErrorException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+
+    public OnyxInternalServerErrorException(String excStr, Throwable cause) {
+        super(excStr, cause);
     }
 }
