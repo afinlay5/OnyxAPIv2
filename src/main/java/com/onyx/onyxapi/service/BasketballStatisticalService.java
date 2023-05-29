@@ -11,8 +11,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.concurrent.CompletableFuture;
 
-import static com.onyx.onyxapi.commons.util.Preconditions.requireWithinRangeInclusive;
-import static java.util.Objects.requireNonNull;
+import static com.onyx.onyxapi.commons.util.Preconditions.checkArgIsWithinClosedRange;
+import static com.onyx.onyxapi.commons.util.Preconditions.checkNonNull;
 
 @RequiredArgsConstructor
 @Service
@@ -27,6 +27,7 @@ public final class BasketballStatisticalService {
     //Factory Pattern
     private final BasketballStatisticalServiceFactory basketballStatisticalServiceFactory;
 
+
     private static short determineMaximumSeasonYear() {
         val currentDate = LocalDate.now();
         val currentYear = currentDate.getYear();
@@ -35,9 +36,9 @@ public final class BasketballStatisticalService {
 
     public CompletableFuture<BasketballPlayerStatisticResponse> getNBABasicStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
                                                                                  BasketballPlayerInfo basketballPlayerInfo, int season) {
-        requireNonNull(basketballStatisticsDataSource, "basketballStatisticsDataSource is required and missing");
-        requireNonNull(basketballPlayerInfo, "basketballPlayerInfo is required and missing");
-        requireWithinRangeInclusive(season, NBA_MINIMUM_SEASON_YEAR, NBA_MAXIMUM_SEASON_YEAR, "Season");
+        checkNonNull(basketballStatisticsDataSource, "basketballStatisticsDataSource is required and missing");
+        checkNonNull(basketballPlayerInfo, "basketballPlayerInfo is required and missing");
+        checkArgIsWithinClosedRange(season, NBA_MINIMUM_SEASON_YEAR, NBA_MAXIMUM_SEASON_YEAR, "Season");
 
         //Delegation Pattern
         return basketballStatisticalServiceFactory

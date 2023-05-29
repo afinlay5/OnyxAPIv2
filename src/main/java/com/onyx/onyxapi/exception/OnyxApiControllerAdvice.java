@@ -2,6 +2,7 @@ package com.onyx.onyxapi.exception;
 
 import com.onyx.onyxapi.commons.exception.BasketballStatisticsNotFoundException;
 import com.onyx.onyxapi.commons.exception.OnyxInternalServerErrorException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +19,44 @@ public class OnyxApiControllerAdvice {
     private static final String INTERNAL_SERVER_ERROR_TITLE = "INTERNAL SERVER ERROR";
 
     /**
+     * HTTP 404: Bad Request Handler
+     * <p> Invalid input supplied to API</p>
+     *
+     * @param exc               {@link IllegalArgumentException} triggering Error Response
+     * @param servletWebRequest web context
+     * @return {@link ResponseEntity} wrapping RFC 7807 Problem Details response
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<OnyxApiProblemDetail> badRequestHandler(IllegalArgumentException exc, ServletWebRequest servletWebRequest) {
+        var request = requireHttpServletRequest(servletWebRequest.getRequest());
+
+        return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
+                .withTitle(BAD_REQUEST_TITLE)
+                .withDetail(exc.getMessage())
+                .withInstance(URI.create(request.getContextPath()))
+                .build(), HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * HTTP 500: Internal Server Error Handler
+     *
+     * @param exc               {@link IllegalStateException} triggering Error Response
+     * @param servletWebRequest web context
+     * @return {@link ResponseEntity} wrapping RFC 7807 Problem Details response
+     */
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<OnyxApiProblemDetail> internalServerErrorHandler(IllegalStateException exc, ServletWebRequest servletWebRequest) {
+        var request = requireHttpServletRequest(servletWebRequest.getRequest());
+
+        return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
+                .withTitle(INTERNAL_SERVER_ERROR_TITLE)
+                .withDetail(exc.getMessage())
+                .withInstance(URI.create(request.getContextPath()))
+                .withAdditionalInformation("Some Additional Info")
+                .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
      * HTTP 500: Internal Server Error Handler
      *
      * @param exc               {@link IllegalArgumentException} triggering Error Response
@@ -26,7 +65,7 @@ public class OnyxApiControllerAdvice {
      */
     @ExceptionHandler(OnyxInternalServerErrorException.class)
     public ResponseEntity<OnyxApiProblemDetail> internalServerErrorHandler(OnyxInternalServerErrorException exc, ServletWebRequest servletWebRequest) {
-        var request = requireNonNull(servletWebRequest.getRequest(), "request is required but is missing");
+        var request = requireHttpServletRequest(servletWebRequest.getRequest());
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(INTERNAL_SERVER_ERROR_TITLE)
@@ -46,7 +85,7 @@ public class OnyxApiControllerAdvice {
      */
     @ExceptionHandler(BasketballStatisticsNotFoundException.class)
     public ResponseEntity<OnyxApiProblemDetail> notFoundHandler(BasketballStatisticsNotFoundException exc, ServletWebRequest servletWebRequest) {
-        var request = requireNonNull(servletWebRequest.getRequest(), "request is required but is missing");
+        var request = requireHttpServletRequest(servletWebRequest.getRequest());
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(exc.getTitle())
@@ -56,25 +95,7 @@ public class OnyxApiControllerAdvice {
                 .build(), HttpStatus.NOT_FOUND);
     }
 
-    /**
-     * HTTP 404: Bad Request Handler
-     * <p> Invalid input supplied to API</p>
-     *
-     * @param exc               {@link IllegalArgumentException} triggering Error Response
-     * @param servletWebRequest web context
-     * @return {@link ResponseEntity} wrapping RFC 7807 Problem Details response
-     */
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<OnyxApiProblemDetail> badRequestHandler(IllegalArgumentException exc, ServletWebRequest servletWebRequest) {
-        var request = requireNonNull(servletWebRequest.getRequest(), "request is required but is missing");
-
-        return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
-                .withTitle(BAD_REQUEST_TITLE)
-                .withDetail(exc.getMessage())
-                .withInstance(URI.create(request.getContextPath()))
-                .build(), HttpStatus.BAD_REQUEST);
+    private HttpServletRequest requireHttpServletRequest(HttpServletRequest request) {
+        return requireNonNull(request, "request is required but is missing");
     }
-
-
-
 }

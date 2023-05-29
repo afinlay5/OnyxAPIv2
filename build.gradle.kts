@@ -2,7 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.1.0"
 	id("io.spring.dependency-management") version "1.1.0"
-//	id("org.graalvm.buildtools.native") version "0.9.20" - won't work on Heroku
+	id("org.graalvm.buildtools.native") version "0.9.20"
 	id("com.diffplug.spotless") version "6.19.0"
 }
 

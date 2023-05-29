@@ -25,8 +25,13 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
-import static com.onyx.onyxapi.commons.util.Constants.*;
-import static com.onyx.onyxapi.commons.util.Preconditions.*;
+import static com.onyx.onyxapi.commons.util.Constants.URL_DELIMITER;
+import static com.onyx.onyxapi.commons.util.Constants.XML_CLOSE_TAG;
+import static com.onyx.onyxapi.commons.util.Constants.XML_OPEN_TAG;
+import static com.onyx.onyxapi.commons.util.Preconditions.requireMapHasKeys;
+import static com.onyx.onyxapi.commons.util.Preconditions.requireNonNegative;
+import static com.onyx.onyxapi.commons.util.Preconditions.requireNotBlank;
+import static com.onyx.onyxapi.commons.util.Preconditions.requirePositive;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @RequiredArgsConstructor
@@ -117,12 +122,11 @@ public final class NBABasketballReferenceDataSource {
             case 2 -> surname.substring(0, 2).toLowerCase();
             case 3 -> surname.substring(0, 3).toLowerCase();
             case 4 -> surname.substring(0, 4).toLowerCase();
-            //TODO - Don't duplicate
-            case 5 -> surname.substring(0, 5).toLowerCase();
             default -> surname.substring(0, 5).toLowerCase();
         };
     }
 
+    @SuppressWarnings({"PMD", "sonar"})
     private Map<String, Float> parseHtmlForBasicStats(HttpResponse<InputStream> response, int season) {
         //TODO - In 2018 We said we would replace this with jSoup LOL........
         throw new NotImplementedException("Let's use jsoup for this someday");
