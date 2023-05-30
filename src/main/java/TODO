@@ -1,17 +1,11 @@
 1) Configure Spotless
 
-2) Test a native image as standalone vs IDE
+2) Modularize and require modular dependencies
 
-3) Modularize
+3) Make DAL and connect to JDBC in addition to JPA
 
-4) Use JPA
+4) Multi ORM with JPA
 
-5) Use JDBC
+5) Add/Configure Actuator
 
-6) Multi ORM?
-
-7) Add Logging
-
-8) Configure out Controller Advice
-
-9) Actuator?
+6) Remaining javadocs

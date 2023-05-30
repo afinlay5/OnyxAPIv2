@@ -1,5 +1,6 @@
 package com.onyx.onyxapi.exception;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
@@ -8,9 +9,8 @@ import org.springframework.http.ProblemDetail;
 import javax.annotation.Nonnull;
 import java.net.URI;
 
-//TODO - @Equals and hashcode Lombok complaint
-
 /* RFC 7807 Compliant HTTP API Problem Details */
+@EqualsAndHashCode(callSuper = true)
 @RequiredArgsConstructor
 @Value
 public final class OnyxApiProblemDetail extends ProblemDetail {
@@ -35,7 +35,7 @@ public final class OnyxApiProblemDetail extends ProblemDetail {
      * {@code OnyxApiProblemDetail} builder static inner class.
      */
     public static final class Builder {
-        private URI type;
+        private URI type = URI.create("about:blank"); //NOTE: Put this here because we aren't supplying a Type currently
         private String title;
         private int status;
         private String detail;

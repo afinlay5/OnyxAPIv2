@@ -6,6 +6,7 @@ import com.onyx.onyxapi.commons.exception.OnyxInternalServerErrorException;
 import com.onyx.onyxapi.commons.model.BasicBasketballStatistics;
 import com.onyx.onyxapi.commons.util.ConcurrentUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,18 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
-import static com.onyx.onyxapi.commons.util.Constants.*;
-import static com.onyx.onyxapi.commons.util.Preconditions.*;
+import static com.onyx.onyxapi.commons.util.Constants.URL_DELIMITER;
+import static com.onyx.onyxapi.commons.util.Constants.XML_CLOSE_TAG;
+import static com.onyx.onyxapi.commons.util.Constants.XML_OPEN_TAG;
+import static com.onyx.onyxapi.commons.util.Preconditions.requireMapHasKeys;
+import static com.onyx.onyxapi.commons.util.Preconditions.requireNonNegative;
+import static com.onyx.onyxapi.commons.util.Preconditions.requireNotBlank;
+import static com.onyx.onyxapi.commons.util.Preconditions.requirePositive;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @RequiredArgsConstructor
-public final class NBABasketballReferenceDataSource {
+@Slf4j
+public final class NBABasketballReferenceDataProvider {
 
     private static final String CANNOT_PARSE_FROM_XML_EXC_STR = "%s could not be parsed from XML";
     private static final String CANNOT_PARSE_PPG_FROM_XML_EXC_STR = String.format(CANNOT_PARSE_FROM_XML_EXC_STR, "PPG");
@@ -50,10 +57,11 @@ public final class NBABasketballReferenceDataSource {
     private static final Charset TARGET_ENCODING = UTF_8;
     private static final Set<String> IRRELEVANT_XML_TAGS = Set.of("<strong>");
 
-
     private final ExecutorService executorService;
 
     public CompletableFuture<BasicBasketballStatistics> getBasicStatistics(String firstName, String lastName, int season) {
+        log.info("J1 - #4A) We are inside our NBA BasketballReference Data Provider where we will find the player webpage and parse it");
+
         return CompletableFuture.supplyAsync(() -> {
             val targetUri = constructBasketballReferenceTargetURI(firstName, lastName);
 
@@ -65,6 +73,7 @@ public final class NBABasketballReferenceDataSource {
 
                 requireMapHasKeys(parsedHtmlMap, "Could not find one or more basic stats", PPG, RPG, APG);
 
+                log.info("J1 - #4B) We found the player and their data. Time to return it to client.");
                 return BasicBasketballStatistics.builder()
                         .season(season)
                         .ppg(parsedHtmlMap.get(PPG))
@@ -117,12 +126,11 @@ public final class NBABasketballReferenceDataSource {
             case 2 -> surname.substring(0, 2).toLowerCase();
             case 3 -> surname.substring(0, 3).toLowerCase();
             case 4 -> surname.substring(0, 4).toLowerCase();
-            //TODO - Don't duplicate
-            case 5 -> surname.substring(0, 5).toLowerCase();
             default -> surname.substring(0, 5).toLowerCase();
         };
     }
 
+    @SuppressWarnings({"PMD", "sonar"})
     private Map<String, Float> parseHtmlForBasicStats(HttpResponse<InputStream> response, int season) {
         //TODO - In 2018 We said we would replace this with jSoup LOL........
         throw new NotImplementedException("Let's use jsoup for this someday");
@@ -133,7 +141,7 @@ public final class NBABasketballReferenceDataSource {
         if (targetXml.isEmpty())
             throw BasketballStatisticsNotFoundException.newBuilder()
                     .withTitle("No Season Data for Player")
-                    .withDetail(String.format("Player queried did not play in NBA for the [%d-%d] season", season - 1, season))
+                    .withDetail(String.format("Player queried did not play in NBA for the [%d-%d] season", season, season + 1))
                     .build();
         else
             return Map.of(
@@ -145,9 +153,11 @@ public final class NBABasketballReferenceDataSource {
     }
 
     private List<String> parseTargetXml(HttpResponse<InputStream> response, int season) {
-        try(val responseBody = response.body(); val scanner = new Scanner(responseBody, TARGET_ENCODING)) {
+        season++; //NOTE: We do this because of how basketball reference organizes their webpage.
+
+        try (val responseBody = response.body(); val scanner = new Scanner(responseBody, TARGET_ENCODING)) {
             val begin = new StringBuilder("id=\"per_game.").append(season).append("\"");
-            val end = new StringBuilder("id=\"per_game.").append(season+1).append("\"");
+            val end = new StringBuilder("id=\"per_game.").append(season + 1).append("\"");
 
             boolean foundRecord = false;
             val targetXml = new ImmutableList.Builder<String>();
