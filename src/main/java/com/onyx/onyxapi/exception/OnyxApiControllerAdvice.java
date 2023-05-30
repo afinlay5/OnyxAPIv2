@@ -32,6 +32,7 @@ public class OnyxApiControllerAdvice {
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(BAD_REQUEST_TITLE)
+                .withStatus(HttpStatus.BAD_REQUEST.value())
                 .withDetail(exc.getMessage())
                 .withInstance(URI.create(request.getContextPath()))
                 .build(), HttpStatus.BAD_REQUEST);
@@ -50,6 +51,7 @@ public class OnyxApiControllerAdvice {
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(INTERNAL_SERVER_ERROR_TITLE)
+                .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .withDetail(exc.getMessage())
                 .withInstance(URI.create(request.getContextPath()))
                 .withAdditionalInformation("Some Additional Info")
@@ -69,6 +71,7 @@ public class OnyxApiControllerAdvice {
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(INTERNAL_SERVER_ERROR_TITLE)
+                .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .withDetail(exc.getMessage())
                 .withInstance(URI.create(request.getContextPath()))
                 .withAdditionalInformation("Some Additional Info")
@@ -89,6 +92,7 @@ public class OnyxApiControllerAdvice {
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(exc.getTitle())
+                .withStatus(HttpStatus.NOT_FOUND.value())
                 .withDetail(exc.getDetail())
                 .withInstance(URI.create(request.getContextPath()))
                 .withAdditionalInformation(exc.getAdditionalInformation())

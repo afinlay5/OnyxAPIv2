@@ -542,7 +542,7 @@ public final class Preconditions {
      */
     public static <T> T[] requireArrayNotEmpty(T[] array, String excStr) {
         requireNotBlank(excStr, EXC_STR_MISSING_OR_EMPTY);
-        if (!ArrayUtils.isEmpty(array))
+        if (ArrayUtils.isEmpty(array))
             throw new IllegalStateException(excStr);
         return array;
     }
@@ -557,7 +557,7 @@ public final class Preconditions {
      */
     public static int requireNonNegative(int val, String excSubStr) {
         requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
-        if (val >= 0)
+        if (val < 0)
             throw new IllegalStateException(String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
         return val;
     }
@@ -572,7 +572,7 @@ public final class Preconditions {
      */
     public static int requirePositive(int val, String excSubStr) {
         requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
-        if (val > 0)
+        if (val <= 0)
             throw new IllegalStateException(String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
         return val;
     }
