@@ -141,7 +141,7 @@ public final class NBABasketballReferenceDataProvider {
         if (targetXml.isEmpty())
             throw BasketballStatisticsNotFoundException.newBuilder()
                     .withTitle("No Season Data for Player")
-                    .withDetail(String.format("Player queried did not play in NBA for the [%d-%d] season", season - 1, season))
+                    .withDetail(String.format("Player queried did not play in NBA for the [%d-%d] season", season, season + 1))
                     .build();
         else
             return Map.of(
@@ -153,9 +153,11 @@ public final class NBABasketballReferenceDataProvider {
     }
 
     private List<String> parseTargetXml(HttpResponse<InputStream> response, int season) {
-        try(val responseBody = response.body(); val scanner = new Scanner(responseBody, TARGET_ENCODING)) {
+        season++; //NOTE: We do this because of how basketball reference organizes their webpage.
+
+        try (val responseBody = response.body(); val scanner = new Scanner(responseBody, TARGET_ENCODING)) {
             val begin = new StringBuilder("id=\"per_game.").append(season).append("\"");
-            val end = new StringBuilder("id=\"per_game.").append(season+1).append("\"");
+            val end = new StringBuilder("id=\"per_game.").append(season + 1).append("\"");
 
             boolean foundRecord = false;
             val targetXml = new ImmutableList.Builder<String>();
