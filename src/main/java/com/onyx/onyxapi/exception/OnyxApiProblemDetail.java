@@ -35,7 +35,7 @@ public final class OnyxApiProblemDetail extends ProblemDetail {
      * {@code OnyxApiProblemDetail} builder static inner class.
      */
     public static final class Builder {
-        private URI type;
+        private URI type = URI.create("about:blank"); //NOTE: Put this here because we aren't supplying a Type currently
         private String title;
         private int status;
         private String detail;

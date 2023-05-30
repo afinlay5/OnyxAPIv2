@@ -4,41 +4,30 @@ import com.onyx.onyxapi.commons.model.BasketballPlayerInfo;
 import com.onyx.onyxapi.commons.model.BasketballPlayerStatisticResponse;
 import com.onyx.onyxapi.commons.model.BasketballStatisticsDataSource;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.concurrent.CompletableFuture;
 
-import static com.onyx.onyxapi.commons.util.Preconditions.checkArgIsWithinClosedRange;
+import static com.onyx.onyxapi.commons.util.Preconditions.checkArgIsPositive;
 import static com.onyx.onyxapi.commons.util.Preconditions.checkNonNull;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public final class BasketballStatisticalService {
 
-    private static final short NBA_MINIMUM_SEASON_YEAR = 1946;
-    /* NOTE: We are approximating, this is merely an estimation */
-    private static final LocalDate NBA_START_OF_SEASON = LocalDate.of(LocalDate.now().getYear(), Month.OCTOBER, 1);
-    private static final short NBA_MAXIMUM_SEASON_YEAR = determineMaximumSeasonYear();
-
-
     //Factory Pattern
     private final BasketballStatisticalServiceFactory basketballStatisticalServiceFactory;
-
-
-    private static short determineMaximumSeasonYear() {
-        val currentDate = LocalDate.now();
-        val currentYear = currentDate.getYear();
-        return currentDate.isBefore(NBA_START_OF_SEASON) ? (short) (currentYear - 1) : (short) (currentYear);
-    }
 
     public CompletableFuture<BasketballPlayerStatisticResponse> getNBABasicStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
                                                                                  BasketballPlayerInfo basketballPlayerInfo, int season) {
         checkNonNull(basketballStatisticsDataSource, "basketballStatisticsDataSource is required and missing");
         checkNonNull(basketballPlayerInfo, "basketballPlayerInfo is required and missing");
-        checkArgIsWithinClosedRange(season, NBA_MINIMUM_SEASON_YEAR, NBA_MAXIMUM_SEASON_YEAR, "Season");
+        checkArgIsPositive(season, "season");
+
+        log.info("J1 - #2A) Hit BasketballStatisticalService and successfully validated basketballStatisticsDataSource, basketballPlayerInfo");
+        log.info("J1 - #2B) Now we are delegating to the Basketball Statistical Service Factory....");
 
         //Delegation Pattern
         return basketballStatisticalServiceFactory

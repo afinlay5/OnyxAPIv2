@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 @Import(OnyxApiBeans.class)
 public class OnyxApiApplication {
 
-	public static void main(String args[]) {
+	public static void main(@SuppressWarnings("java:S1197") String args[]) {
 		SpringApplication.run(OnyxApiApplication.class, args);
 	}
 

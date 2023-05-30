@@ -6,6 +6,7 @@ import com.onyx.onyxapi.commons.exception.OnyxInternalServerErrorException;
 import com.onyx.onyxapi.commons.model.BasicBasketballStatistics;
 import com.onyx.onyxapi.commons.util.ConcurrentUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,8 @@ import static com.onyx.onyxapi.commons.util.Preconditions.requirePositive;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @RequiredArgsConstructor
-public final class NBABasketballReferenceDataSource {
+@Slf4j
+public final class NBABasketballReferenceDataProvider {
 
     private static final String CANNOT_PARSE_FROM_XML_EXC_STR = "%s could not be parsed from XML";
     private static final String CANNOT_PARSE_PPG_FROM_XML_EXC_STR = String.format(CANNOT_PARSE_FROM_XML_EXC_STR, "PPG");
@@ -55,10 +57,11 @@ public final class NBABasketballReferenceDataSource {
     private static final Charset TARGET_ENCODING = UTF_8;
     private static final Set<String> IRRELEVANT_XML_TAGS = Set.of("<strong>");
 
-
     private final ExecutorService executorService;
 
     public CompletableFuture<BasicBasketballStatistics> getBasicStatistics(String firstName, String lastName, int season) {
+        log.info("J1 - #4A) We are inside our NBA BasketballReference Data Provider where we will find the player webpage and parse it");
+
         return CompletableFuture.supplyAsync(() -> {
             val targetUri = constructBasketballReferenceTargetURI(firstName, lastName);
 
@@ -70,6 +73,7 @@ public final class NBABasketballReferenceDataSource {
 
                 requireMapHasKeys(parsedHtmlMap, "Could not find one or more basic stats", PPG, RPG, APG);
 
+                log.info("J1 - #4B) We found the player and their data. Time to return it to client.");
                 return BasicBasketballStatistics.builder()
                         .season(season)
                         .ppg(parsedHtmlMap.get(PPG))
