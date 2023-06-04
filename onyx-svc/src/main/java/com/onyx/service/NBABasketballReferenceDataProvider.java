@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +62,7 @@ public final class NBABasketballReferenceDataProvider {
             val request = HttpRequest.newBuilder().uri(targetUri).build();
             val response = sendRequest(request);
 
-            if (HttpStatus.OK.value() == response.statusCode()) {
+            if (Constants.HTTP_OK == response.statusCode()) {
                 val parsedHtmlMap = rawParseHtmlForBasicStats(response, season);
 
                 Preconditions.requireMapHasKeys(parsedHtmlMap, "Could not find one or more basic stats", PPG, RPG, APG);

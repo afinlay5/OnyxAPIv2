@@ -17,7 +17,7 @@ dependencies {
 	compileOnly("org.projectlombok:lombok:1.18.28")
 
 	implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.2")
-	implementation("com.google.guava:guava:32.0.0-jre") //TODO get specific modules (checkArgument and range)
+	implementation("com.google.guava:guava:32.0.0-jre") //TODO get specific modules only (checkArgument and range)
 	implementation("org.apache.commons:commons-lang3:3.12.0")
 	implementation("org.springframework:spring-context:6.0.9")
 
