@@ -3,7 +3,7 @@ package com.onyx.onyxapi.service;
 import com.google.common.collect.ImmutableList;
 import com.onyx.onyxapi.commons.exception.BasketballStatisticsNotFoundException;
 import com.onyx.onyxapi.commons.exception.OnyxInternalServerErrorException;
-import com.onyx.onyxapi.commons.model.BasicBasketballStatistics;
+import com.onyx.onyxapi.commons.model.BasicBasketballPlayerStatistics;
 import com.onyx.onyxapi.commons.util.ConcurrentUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +59,7 @@ public final class NBABasketballReferenceDataProvider {
 
     private final ExecutorService executorService;
 
-    public CompletableFuture<BasicBasketballStatistics> getBasicStatistics(String firstName, String lastName, int season) {
+    public CompletableFuture<BasicBasketballPlayerStatistics> getBasicStatistics(String firstName, String lastName, int season) {
         log.info("J1 - #4A) We are inside our NBA BasketballReference Data Provider where we will find the player webpage and parse it");
 
         return CompletableFuture.supplyAsync(() -> {
@@ -74,7 +74,7 @@ public final class NBABasketballReferenceDataProvider {
                 requireMapHasKeys(parsedHtmlMap, "Could not find one or more basic stats", PPG, RPG, APG);
 
                 log.info("J1 - #4B) We found the player and their data. Time to return it to client.");
-                return BasicBasketballStatistics.builder()
+                return BasicBasketballPlayerStatistics.builder()
                         .season(season)
                         .ppg(parsedHtmlMap.get(PPG))
                         .rpg(parsedHtmlMap.get(RPG))

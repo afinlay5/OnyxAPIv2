@@ -1,6 +1,6 @@
 package com.onyx.onyxapi.service;
 
-import com.onyx.onyxapi.commons.model.BasicBasketballStatistics;
+import com.onyx.onyxapi.commons.model.BasicBasketballPlayerStatistics;
 import com.onyx.onyxapi.commons.model.BasketballStatisticsDataSource;
 
 import java.util.concurrent.CompletableFuture;
@@ -10,11 +10,12 @@ public interface BasketballLeaguePlayerStatisticalService {
 
     /**
      * Retrieves Basic Players Statistics from this League
+     *
      * @param basketballStatisticsDataSource League Data Source
-     * @param firstName Player First Name
-     * @param lastName Player Last name
-     * @param season Season expressed as a year
+     * @param firstName                      Player First Name
+     * @param lastName                       Player Last name
+     * @param season                         Season expressed as a year
      */
-    CompletableFuture<BasicBasketballStatistics> getBasicPlayerStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
-                                                                     String firstName, String lastName, int season);
+    CompletableFuture<BasicBasketballPlayerStatistics> getBasicPlayerStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
+                                                                           String firstName, String lastName, int season);
 }

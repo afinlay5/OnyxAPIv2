@@ -1,31 +1,38 @@
 package com.onyx.onyxapi.api.nba;
 
 import com.onyx.onyxapi.commons.model.BasketballPlayerInfo;
-import com.onyx.onyxapi.commons.model.BasketballPlayerStatisticResponse;
+import com.onyx.onyxapi.commons.model.BasketballPlayerStatisticsProfile;
 import com.onyx.onyxapi.commons.model.BasketballStatisticsDataSource;
-import com.onyx.onyxapi.service.BasketballStatisticalService;
+import com.onyx.onyxapi.service.BasketballPlayerStatisticalService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
+import java.util.SortedSet;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.Objects.requireNonNull;
+
+//TODO - Swagger
 
 /* RESTful Web API for retrieving Basketball Data*/
 @RestController
 @RequestMapping("/api/bball")
 @Slf4j
-public final class BasketballStatisticsController {
+public final class BasketballPlayerStatisticsController {
     private static final String BASKETBALL_LEAGUE_DATA_SOURCE = "BASKETBALL_LEAGUE_DATA_SOURCE";
-    private final BasketballStatisticalService basketballStatisticalService;
+    private static final long BULK_UPLOAD_TIMEOUT_MILLISECONDS = 5 * 1000;
+    private final BasketballPlayerStatisticalService basketballPlayerStatisticalService;
 
-    public BasketballStatisticsController(BasketballStatisticalService basketballStatisticalService) {
-        this.basketballStatisticalService = requireNonNull(basketballStatisticalService,
+    public BasketballPlayerStatisticsController(BasketballPlayerStatisticalService basketballPlayerStatisticalService) {
+        this.basketballPlayerStatisticalService = requireNonNull(basketballPlayerStatisticalService,
                 "basketballStatisticService is required and missing");
     }
 
@@ -35,14 +42,15 @@ public final class BasketballStatisticsController {
         return "hello, world!";
     }
 
+    //TODO: You could refactor this so there is a dedicated NBA controller. Fine for now.
     @GetMapping("/nba/player/firstName/{firstName}/lastName/{lastName}/season/{season}")
-    public CompletableFuture<BasketballPlayerStatisticResponse> getNBABasicStats(@PathVariable String firstName,
+    public CompletableFuture<BasketballPlayerStatisticsProfile> getNBABasicStats(@PathVariable String firstName,
                                                                                  @PathVariable String lastName,
                                                                                  @PathVariable int season,
                                                                                  @RequestHeader(BASKETBALL_LEAGUE_DATA_SOURCE) String basketballLeagueDataSourceHeader) {
         log.info("J1 - #1) Hit endpoint /api/bball//nba/player/firstName/{firstName}/lastName/{lastName}/season/{season}");
         val basketballLeagueDataSource = BasketballStatisticsDataSource.fmtInsensitiveValueOf(basketballLeagueDataSourceHeader);
-        return basketballStatisticalService
+        return basketballPlayerStatisticalService
                 .getNBABasicStats(basketballLeagueDataSource, new BasketballPlayerInfo(firstName, lastName), season)
                 .whenComplete((ignored, throwable) -> {
                     if (throwable != null) {
@@ -52,4 +60,18 @@ public final class BasketballStatisticsController {
                     }
                 });
     }
+
+    @PostMapping
+    public BasketballPlayerStatisticsProfile uploadNewBasketballPlayerStatisticsProfile(
+            @RequestBody BasketballPlayerStatisticsProfile newBasketballPlayerStatisticsProfile) {
+        return null;
+    }
+
+    @PostMapping
+    public DeferredResult<SortedSet<BasketballPlayerStatisticsProfile>> bulkUploadNewBasketballPlayerStatisticsProfile() {
+        var deferredResult = new DeferredResult(BULK_UPLOAD_TIMEOUT_MILLISECONDS);
+
+        return deferredResult;
+    }
+
 }

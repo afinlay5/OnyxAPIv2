@@ -1,8 +1,9 @@
 package com.onyx.onyxapi.service;
 
 import com.onyx.onyxapi.commons.model.BasketballPlayerInfo;
-import com.onyx.onyxapi.commons.model.BasketballPlayerStatisticResponse;
+import com.onyx.onyxapi.commons.model.BasketballPlayerStatisticsProfile;
 import com.onyx.onyxapi.commons.model.BasketballStatisticsDataSource;
+import com.onyx.onyxapi.service.validation.BasketballPlayerStatisticsProfileValidationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,13 @@ import static com.onyx.onyxapi.commons.util.Preconditions.checkNonNull;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public final class BasketballStatisticalService {
+/** Service proxy for retrieving and persisting {@link BasketballPlayerStatisticsProfile} */
+public final class BasketballPlayerStatisticalService {
 
     //Factory Pattern
-    private final BasketballStatisticalServiceFactory basketballStatisticalServiceFactory;
+    private final BasketballPlayerStatisticalServiceFactory basketballPlayerStatisticalServiceFactory;
 
-    public CompletableFuture<BasketballPlayerStatisticResponse> getNBABasicStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
+    public CompletableFuture<BasketballPlayerStatisticsProfile> getNBABasicStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
                                                                                  BasketballPlayerInfo basketballPlayerInfo, int season) {
         checkNonNull(basketballStatisticsDataSource, "basketballStatisticsDataSource is required and missing");
         checkNonNull(basketballPlayerInfo, "basketballPlayerInfo is required and missing");
@@ -30,10 +32,15 @@ public final class BasketballStatisticalService {
         log.info("J1 - #2B) Now we are delegating to the Basketball Statistical Service Factory....");
 
         //Delegation Pattern
-        return basketballStatisticalServiceFactory
+        return basketballPlayerStatisticalServiceFactory
                 .getNbaPlayerStatisticsService()
                 .getBasicPlayerStats(basketballStatisticsDataSource, basketballPlayerInfo.firstName(), basketballPlayerInfo.lastName(), season)
-                .thenApply(basicPlayerStats -> new BasketballPlayerStatisticResponse(basketballPlayerInfo, basicPlayerStats));
+                .thenApply(basicPlayerStats -> new BasketballPlayerStatisticsProfile(basketballPlayerInfo, basicPlayerStats));
+    }
+
+    public CompletableFuture<BasketballPlayerStatisticsProfile> uploadNewBasketballPlayerStats(
+            BasketballPlayerStatisticsProfile basketballPlayerStatisticsProfile) {
+        BasketballPlayerStatisticsProfileValidationUtil.validateBasicRecord(basketballPlayerStatisticsProfile));
     }
 
 }

@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Builder
 @Value
-public class BasicBasketballStatistics {
+public class BasicBasketballPlayerStatistics {
     //NOTE TO SELF - Might be more efficient for OSs to handle float vs double
 
     private final int season;

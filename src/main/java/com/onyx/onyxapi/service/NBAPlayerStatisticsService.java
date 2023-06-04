@@ -1,6 +1,6 @@
 package com.onyx.onyxapi.service;
 
-import com.onyx.onyxapi.commons.model.BasicBasketballStatistics;
+import com.onyx.onyxapi.commons.model.BasicBasketballPlayerStatistics;
 import com.onyx.onyxapi.commons.model.BasketballStatisticsDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +36,8 @@ public final class NBAPlayerStatisticsService implements BasketballLeaguePlayerS
     }
 
     @Override
-    public CompletableFuture<BasicBasketballStatistics> getBasicPlayerStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
-                                                                            String firstName, String lastName, int season) {
+    public CompletableFuture<BasicBasketballPlayerStatistics> getBasicPlayerStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
+                                                                                  String firstName, String lastName, int season) {
         log.info("J1 - #3A) We were delegated to NBA Player Statistic Service based on our context");
 
         requireNonNull(basketballStatisticsDataSource, "basketballStatisticsDataSource is required and missing");
