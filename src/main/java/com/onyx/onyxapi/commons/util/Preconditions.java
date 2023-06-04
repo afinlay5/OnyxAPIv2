@@ -134,7 +134,7 @@ public final class Preconditions {
     }
 
     /**
-     * Validate that double {@code number} is non-null and positive
+     * Validate that double {@code number} is not null and positive
      *
      * @param number    to validate
      * @param excSubStr Exception Substring
@@ -142,9 +142,9 @@ public final class Preconditions {
      * @return {@code number} if passed validation successfully
      * @throws IllegalArgumentException if {@code number} is not positive
      */
-    public static <R extends Number> R checkArgIsPositive(R number, String excSubStr) {
+    public static <R extends Number> R checkIsPositive(R number, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
-        checkNonNull(number, excSubStr);
+        checkNotNull(number, excSubStr);
 
         if (number instanceof Double)
             checkArgument(number.doubleValue() > 0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
@@ -193,7 +193,7 @@ public final class Preconditions {
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is null
      */
-    public static <T> T checkNonNull(T val, String excStr) {
+    public static <T> T checkNotNull(T val, String excStr) {
         checkNotBlank(excStr, EXC_STR_MISSING_OR_EMPTY);
 
         if (val == null) {
@@ -218,14 +218,14 @@ public final class Preconditions {
     }
 
     /**
-     * Validate that byte {@code val} is non-negative
+     * Validate that byte {@code val} is not negative
      *
      * @param val       to validate
      * @param excSubStr Exception Substring supplied to IAE
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is negative
      */
-    public static byte checkIsNonNegative(byte val, String excSubStr) {
+    public static byte checkIsNotNegative(byte val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
         return val;
@@ -239,7 +239,7 @@ public final class Preconditions {
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is not positive
      */
-    public static byte checkArgIsPositive(byte val, String excSubStr) {
+    public static byte checkIsPositive(byte val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val > 0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
         return val;
@@ -260,14 +260,14 @@ public final class Preconditions {
     }
 
     /**
-     * Validate that double {@code val} is non-negative
+     * Validate that double {@code val} is not negative
      *
      * @param val       to validate
      * @param excSubStr Exception Substring supplied to IAE
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is negative
      */
-    public static double checkIsNonNegative(double val, String excSubStr) {
+    public static double checkIsNotNegative(double val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
         return val;
@@ -281,21 +281,21 @@ public final class Preconditions {
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is not positive
      */
-    public static double checkArgIsPositive(double val, String excSubStr) {
+    public static double checkIsPositive(double val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val > 0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
         return val;
     }
 
     /**
-     * Validate that float {@code val} is non-negative
+     * Validate that float {@code val} is not negative
      *
      * @param val       to validate
      * @param excSubStr Exception Substring supplied to IAE
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is negative
      */
-    public static float checkIsNonNegative(float val, String excSubStr) {
+    public static float checkIsNotNegative(float val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
         return val;
@@ -309,7 +309,7 @@ public final class Preconditions {
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is not positive
      */
-    public static float checkArgIsPositive(float val, String excSubStr) {
+    public static float checkIsPositive(float val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val > 0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
         return val;
@@ -331,14 +331,14 @@ public final class Preconditions {
     }
 
     /**
-     * Validate that long {@code val} is non-negative
+     * Validate that long {@code val} is not negative
      *
      * @param val       to validate
      * @param excSubStr Exception Substring supplied to IAE
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is negative
      */
-    public static long checkIsNonNegative(long val, String excSubStr) {
+    public static long checkIsNotNegative(long val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
         return val;
@@ -352,21 +352,21 @@ public final class Preconditions {
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is not positive
      */
-    public static long checkArgIsPositive(long val, String excSubStr) {
+    public static long checkIsPositive(long val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val > 0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
         return val;
     }
 
     /**
-     * Validate that int {@code val} is non-negative
+     * Validate that int {@code val} is not negative
      *
      * @param val       to validate
      * @param excSubStr Exception Substring supplied to IAE
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is negative
      */
-    public static int checkIsNonNegative(int val, String excSubStr) {
+    public static int checkIsNotNegative(int val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
         return val;
@@ -380,21 +380,21 @@ public final class Preconditions {
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is not positive
      */
-    public static int checkArgIsPositive(int val, String excSubStr) {
+    public static int checkIsPositive(int val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val > 0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
         return val;
     }
 
     /**
-     * Validate that short {@code val} is non-negative
+     * Validate that short {@code val} is not negative
      *
      * @param val       to validate
      * @param excSubStr Exception Substring supplied to IAE
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is negative
      */
-    public static short checkIsNonNegative(short val, String excSubStr) {
+    public static short checkIsNotNegative(short val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val >= 0, String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));
         return val;
@@ -408,7 +408,7 @@ public final class Preconditions {
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is not positive
      */
-    public static short checkArgIsPositive(short val, String excSubStr) {
+    public static short checkIsPositive(short val, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         checkArgument(val > 0, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
         return val;
@@ -427,8 +427,8 @@ public final class Preconditions {
      * @param excSubStr Exception Substring supplied to IAE
      * @throws IllegalArgumentException if {@code val} is not within range of {@code from} - {@code to}
      */
-    public static void checkArgIsWithinClosedRange(int val, int from, int to, String excSubStr) {
-        checkNonNull(excSubStr, EXC_SUBSTR_MISSING_OR_EMPTY);
+    public static void checkIsWithinClosedIntegerRange(int val, int from, int to, String excSubStr) {
+        checkNotNull(excSubStr, EXC_SUBSTR_MISSING_OR_EMPTY);
 
         if (!Range.closed(from, to).contains(val))
             throw new IllegalArgumentException(String.format(EXC_STR_WITHIN_RANGE, val, from, to));
@@ -548,14 +548,14 @@ public final class Preconditions {
     }
 
     /**
-     * Validate that int {@code val} is non-negative
+     * Validate that int {@code val} is not negative
      *
      * @param val       to validate
      * @param excSubStr Exception Substring supplied to IAE
      * @return {@code val} if passed validation successfully
      * @throws IllegalStateException if {@code val} is negative
      */
-    public static int requireNonNegative(int val, String excSubStr) {
+    public static int requireNotNegative(int val, String excSubStr) {
         requireNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
         if (val < 0)
             throw new IllegalStateException(String.format(EXC_STR_MUST_NOT_BE_NEGATIVE, excSubStr));

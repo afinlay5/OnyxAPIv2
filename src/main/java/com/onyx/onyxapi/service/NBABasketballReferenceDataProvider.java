@@ -30,8 +30,8 @@ import static com.onyx.onyxapi.commons.util.Constants.URL_DELIMITER;
 import static com.onyx.onyxapi.commons.util.Constants.XML_CLOSE_TAG;
 import static com.onyx.onyxapi.commons.util.Constants.XML_OPEN_TAG;
 import static com.onyx.onyxapi.commons.util.Preconditions.requireMapHasKeys;
-import static com.onyx.onyxapi.commons.util.Preconditions.requireNonNegative;
 import static com.onyx.onyxapi.commons.util.Preconditions.requireNotBlank;
+import static com.onyx.onyxapi.commons.util.Preconditions.requireNotNegative;
 import static com.onyx.onyxapi.commons.util.Preconditions.requirePositive;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -195,7 +195,7 @@ public final class NBABasketballReferenceDataProvider {
 
             if (PPG_TARGET_XML_POINT.contentEquals(line.strip())) {
                 val ppgXmlLine = requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_PPG_FROM_XML_EXC_STR);
-                val ppgElementBeginIndx = requireNonNegative(ppgXmlLine.indexOf(XML_CLOSE_TAG), "ppgElementBeginIndx") + 1;
+                val ppgElementBeginIndx = requireNotNegative(ppgXmlLine.indexOf(XML_CLOSE_TAG), "ppgElementBeginIndx") + 1;
                 var ppgAsStr = removeIrrelevantXmlTagsFromLine(ppgXmlLine.substring(ppgElementBeginIndx));
                 val ppgElementEndIndx = requirePositive(ppgAsStr.indexOf(XML_OPEN_TAG), "ppgElementEndIndx");
 
@@ -216,7 +216,7 @@ public final class NBABasketballReferenceDataProvider {
 
             if (RPG_TARGET_XML_POINT.contentEquals(line.strip())) {
                 val rpgXmlLine = requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_RPG_FROM_XML_EXC_STR);
-                val rpgElementBeginIndx = requireNonNegative(rpgXmlLine.indexOf(XML_CLOSE_TAG), "rpgElementBeginIndx") + 1;
+                val rpgElementBeginIndx = requireNotNegative(rpgXmlLine.indexOf(XML_CLOSE_TAG), "rpgElementBeginIndx") + 1;
                 var rpgAsStr = removeIrrelevantXmlTagsFromLine(rpgXmlLine.substring(rpgElementBeginIndx));
                 val rpgElementEndIndx = requirePositive(rpgAsStr.indexOf(XML_OPEN_TAG), "rpgElementEndIndx");
 
@@ -237,7 +237,7 @@ public final class NBABasketballReferenceDataProvider {
 
             if (APG_TARGET_XML_POINT.contentEquals(line.strip())) {
                 val apgXmlLine = requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_APG_FROM_XML_EXC_STR);
-                val apgElementBeginIndx = requireNonNegative(apgXmlLine.indexOf(XML_CLOSE_TAG), "apgElementBeginIndx") + 1;
+                val apgElementBeginIndx = requireNotNegative(apgXmlLine.indexOf(XML_CLOSE_TAG), "apgElementBeginIndx") + 1;
                 var apgAsStr = removeIrrelevantXmlTagsFromLine(apgXmlLine.substring(apgElementBeginIndx));
                 val apgElementEndIndx = requirePositive(apgAsStr.indexOf(XML_OPEN_TAG), "apgElementEndIndx");
 

@@ -30,7 +30,7 @@ dependencies {
 	implementation("org.apache.commons:commons-lang3:3.12.0")
 	implementation("org.apache.logging.log4j:log4j-api:2.20.0")
 	implementation("org.apache.logging.log4j:log4j-core:2.20.0")
-//	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 //	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 

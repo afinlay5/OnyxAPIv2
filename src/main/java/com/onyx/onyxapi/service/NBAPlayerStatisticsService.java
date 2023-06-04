@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.concurrent.CompletableFuture;
 
-import static com.onyx.onyxapi.commons.util.Preconditions.checkArgIsWithinClosedRange;
+import static com.onyx.onyxapi.commons.util.Preconditions.checkIsWithinClosedIntegerRange;
 import static com.onyx.onyxapi.commons.util.Preconditions.requireNotBlank;
 import static java.util.Objects.requireNonNull;
 
@@ -43,7 +43,7 @@ public final class NBAPlayerStatisticsService implements BasketballLeaguePlayerS
         requireNonNull(basketballStatisticsDataSource, "basketballStatisticsDataSource is required and missing");
         requireNotBlank(firstName, "firstName is required and missing");
         requireNotBlank(lastName, "lastName is required and missing");
-        checkArgIsWithinClosedRange(season, NBA_MINIMUM_SEASON_YEAR, NBA_MAXIMUM_SEASON_YEAR, "Season");
+        checkIsWithinClosedIntegerRange(season, NBA_MINIMUM_SEASON_YEAR, NBA_MAXIMUM_SEASON_YEAR, "Season");
 
         log.info("J1 - #3B) We passed validation inside our NBA Player Statistic Service");
 
