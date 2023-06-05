@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 public class OnyxDALBeans {
     public static final String NBA_STAT_JPA_DAL_IMPL = "NBA_STAT_JPA_DAL_IMPL";
     public static final String NBA_STAT_JDBC_DAL_IMPL = "NBA_STAT_JDBC_DAL_IMPL";
-    public static final String WNBA_STAT_JPA_DAL_IMPL = "NBA_STAT_JPA_DAL_IMPL";
+    public static final String WNBA_STAT_JPA_DAL_IMPL = "WNBA_STAT_JPA_DAL_IMPL";
 
     @Bean(NBA_STAT_JPA_DAL_IMPL)
     public NBAPlayerStatisticsDAL nbaPlayerStatisticsJPADALImpl() {
@@ -31,8 +31,8 @@ public class OnyxDALBeans {
         return new NBAPlayerStatisticsJDBCDALImpl();
     }
 
-    @TODO("Not Yet Implemented")
     @Bean(WNBA_STAT_JPA_DAL_IMPL)
+    @TODO("Not Yet Implemented")
     public WNBAPlayerStatisticsDAL wnbaPlayerStatisticsJPADALImpl() {
         return new WNBAPlayerStatisticsDALImpl();
     }

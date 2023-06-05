@@ -324,7 +324,7 @@ public final class Preconditions {
      */
     public static int checkIsGreaterThan(int val, int minimum, String excSubStr) {
         checkNotBlank(excSubStr, EXC_STR_MISSING_OR_EMPTY);
-        checkArgument(val > minimum, String.format(EXC_STR_MUST_BE_POSITIVE, excSubStr));
+        checkArgument(val <= minimum, String.format(excSubStr, val));
         return val;
     }
 

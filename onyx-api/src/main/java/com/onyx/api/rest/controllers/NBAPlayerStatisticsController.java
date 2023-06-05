@@ -18,6 +18,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 import java.util.SortedSet;
 import java.util.concurrent.CompletableFuture;
 
+import static com.onyx.commons.util.Constants.TARGET_DATA_STORE_DESTINATION;
 import static java.util.Objects.requireNonNull;
 
 //TODO - Swagger
@@ -62,8 +63,10 @@ public final class NBAPlayerStatisticsController {
 
     @PostMapping
     public CompletableFuture<BasketballPlayerStatisticsProfile> uploadNewBasketballPlayerStatisticsProfile(
-            @RequestBody BasketballPlayerStatisticsProfile newBasketballPlayerStatisticsProfile) {
-        return basketballPlayerStatisticsService.uploadNewBasketballPlayerStats(newBasketballPlayerStatisticsProfile)
+            @RequestBody BasketballPlayerStatisticsProfile newBasketballPlayerStatisticsProfile,
+            @RequestHeader(TARGET_DATA_STORE_DESTINATION) String targetDataStoreDestination) {
+        return basketballPlayerStatisticsService.uploadNewBasketballPlayerStats(
+                        newBasketballPlayerStatisticsProfile, targetDataStoreDestination)
                 .whenComplete((ignored, throwable) -> {
                     if (throwable != null) {
                         log.error("POST /api/nba - Oops! We had an Exception[{}]", throwable.getMessage());

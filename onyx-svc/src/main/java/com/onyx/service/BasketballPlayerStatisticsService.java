@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
 
+import static com.onyx.commons.util.Constants.TARGET_DATA_STORE_DESTINATION;
+import static com.onyx.commons.util.Preconditions.checkNotBlank;
 import static com.onyx.service.validation.BasketballPlayerStatisticsProfileValidationUtil.validateBasicBasketballPlayerStaticsProfileRecord;
 
 @RequiredArgsConstructor
@@ -29,8 +31,8 @@ public final class BasketballPlayerStatisticsService {
                                                                                  BasketballPlayerInfo basketballPlayerInfo, int season) {
         Preconditions.checkNotNull(basketballStatisticsDataSource, "basketballStatisticsDataSource is required and missing");
         Preconditions.checkNotNull(basketballPlayerInfo, "basketballPlayerInfo is required and missing");
-        Preconditions.checkNotBlank(basketballPlayerInfo.firstName(), "Basketball Player Info must include a First name");
-        Preconditions.checkNotBlank(basketballPlayerInfo.lastName(), "Basketball Player Info must include a Last name");
+        checkNotBlank(basketballPlayerInfo.firstName(), "Basketball Player Info must include a First name");
+        checkNotBlank(basketballPlayerInfo.lastName(), "Basketball Player Info must include a Last name");
         Preconditions.checkIsPositive(season, "season");
 
         log.info("J1 - #2A) Hit BasketballStatisticsService and successfully validated basketballStatisticsDataSource, basketballPlayerInfo");
@@ -44,8 +46,11 @@ public final class BasketballPlayerStatisticsService {
     }
 
     public CompletableFuture<BasketballPlayerStatisticsProfile> uploadNewBasketballPlayerStats(
-            BasketballPlayerStatisticsProfile basketballPlayerStatisticsProfile) {
+            BasketballPlayerStatisticsProfile basketballPlayerStatisticsProfile, String targetDataStoreHeader) {
         validateBasicBasketballPlayerStaticsProfileRecord(basketballPlayerStatisticsProfile);
+        checkNotBlank(targetDataStoreHeader, String.format("%s header is required and missing",
+                TARGET_DATA_STORE_DESTINATION));
+
 
         return basketballPlayerStatisticsDALFactory.getNbaPlayerStatisticsDAL()
                 .persistBasketballPlayerStats(basketballPlayerStatisticsProfile);

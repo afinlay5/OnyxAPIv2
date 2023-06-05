@@ -9,14 +9,16 @@ import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.sql.DataSource;
 import java.util.Map;
 
+import static com.onyx.commons.util.Constants.TARGET_DATA_STORE_DESTINATION;
+
 @Component
 @RequiredArgsConstructor
-public class DynamicDataSourceRoutingInterceptor implements AsyncHandlerInterceptor {
-    private static final String TARGET_DATA_STORE_DESTINATION = "TARGET_DATA_STORE_DESTINATION";
+public class DynamicDataSourceRoutingInterceptor implements HandlerInterceptor {
 
     private final Map<BasketballPlayerStatisticsDataStore, DataSource> datastores;
 
@@ -50,6 +52,6 @@ public class DynamicDataSourceRoutingInterceptor implements AsyncHandlerIntercep
                 BasketballPlayerStatisticsDataStoreContextContainer.setContext(dataStore);
         }
 
-        return AsyncHandlerInterceptor.super.preHandle(request, response, handler);
+        return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 }
