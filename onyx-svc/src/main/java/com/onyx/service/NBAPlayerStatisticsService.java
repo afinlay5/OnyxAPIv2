@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public final class NBAPlayerStatisticsService implements BasketballLeaguePlayerStatisticalService {
+public final class NBAPlayerStatisticsService implements BasketballLeaguePlayerStatisticsService {
 
     private static final short NBA_MINIMUM_SEASON_YEAR = 1946;
     /* NOTE: We are approximating, this is merely an estimation */

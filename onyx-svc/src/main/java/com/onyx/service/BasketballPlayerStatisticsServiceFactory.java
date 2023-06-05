@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 
 @Getter
 @Service
-public final class BasketballPlayerStatisticalServiceFactory {
+public final class BasketballPlayerStatisticsServiceFactory {
     private final NBAPlayerStatisticsService nbaPlayerStatisticsService;
 
-    public BasketballPlayerStatisticalServiceFactory(NBAPlayerStatisticsService nbaPlayerStatisticsService) {
+    public BasketballPlayerStatisticsServiceFactory(NBAPlayerStatisticsService nbaPlayerStatisticsService) {
         this.nbaPlayerStatisticsService = nbaPlayerStatisticsService;
     }
 }

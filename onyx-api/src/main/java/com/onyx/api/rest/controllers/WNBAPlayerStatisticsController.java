@@ -1,6 +1,6 @@
 package com.onyx.api.rest.controllers;
 
-import com.onyx.service.BasketballPlayerStatisticalService;
+import com.onyx.service.BasketballPlayerStatisticsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +16,10 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 public final class WNBAPlayerStatisticsController {
     private static final String WNBA_DATA_SOURCE = "BASKETBALL_LEAGUE_DATA_SOURCE";
-    private final BasketballPlayerStatisticalService basketballPlayerStatisticalService;
+    private final BasketballPlayerStatisticsService basketballPlayerStatisticsService;
 
-    public WNBAPlayerStatisticsController(BasketballPlayerStatisticalService basketballPlayerStatisticalService) {
-        this.basketballPlayerStatisticalService = requireNonNull(basketballPlayerStatisticalService,
+    public WNBAPlayerStatisticsController(BasketballPlayerStatisticsService basketballPlayerStatisticsService) {
+        this.basketballPlayerStatisticsService = requireNonNull(basketballPlayerStatisticsService,
                 "basketballStatisticService is required and missing");
     }
 

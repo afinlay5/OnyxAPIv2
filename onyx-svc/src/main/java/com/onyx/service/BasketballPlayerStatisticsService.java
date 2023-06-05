@@ -17,11 +17,10 @@ import static com.onyx.service.validation.BasketballPlayerStatisticsProfileValid
 @Service
 @Slf4j
 /** Retrieves and persists {@link BasketballPlayerStatisticsProfile} */
-public final class BasketballPlayerStatisticalService {
+public final class BasketballPlayerStatisticsService {
 
     //Factory Pattern
-    private final BasketballPlayerStatisticalServiceFactory
-            basketballPlayerStatisticalServiceFactory;
+    private final BasketballPlayerStatisticsServiceFactory basketballPlayerStatisticsServiceFactory;
 
     private final BasketballPlayerStatisticsDALFactory basketballPlayerStatisticsDALFactory;
 
@@ -33,11 +32,11 @@ public final class BasketballPlayerStatisticalService {
         Preconditions.checkNotBlank(basketballPlayerInfo.lastName(), "Basketball Player Info must include a Last name");
         Preconditions.checkIsPositive(season, "season");
 
-        log.info("J1 - #2A) Hit BasketballStatisticalService and successfully validated basketballStatisticsDataSource, basketballPlayerInfo");
-        log.info("J1 - #2B) Now we are delegating to the Basketball Statistical Service Factory....");
+        log.info("J1 - #2A) Hit BasketballStatisticsService and successfully validated basketballStatisticsDataSource, basketballPlayerInfo");
+        log.info("J1 - #2B) Now we are delegating to the Basketball Statistics Service Factory....");
 
         //Delegation Pattern
-        return basketballPlayerStatisticalServiceFactory
+        return basketballPlayerStatisticsServiceFactory
                 .getNbaPlayerStatisticsService()
                 .getBasicPlayerStats(basketballStatisticsDataSource, basketballPlayerInfo.firstName(), basketballPlayerInfo.lastName(), season)
                 .thenApply(basicPlayerStats -> new BasketballPlayerStatisticsProfile(basketballPlayerInfo, basicPlayerStats));

@@ -3,7 +3,7 @@ package com.onyx.api.rest.controllers;
 import com.onyx.commons.model.BasketballPlayerInfo;
 import com.onyx.commons.model.BasketballPlayerStatisticsProfile;
 import com.onyx.commons.model.BasketballStatisticsDataSource;
-import com.onyx.service.BasketballPlayerStatisticalService;
+import com.onyx.service.BasketballPlayerStatisticsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,10 +28,10 @@ import static java.util.Objects.requireNonNull;
 public final class NBAPlayerStatisticsController {
     private static final String NBA_DATA_SOURCE = "BASKETBALL_LEAGUE_DATA_SOURCE";
     private static final long BULK_UPLOAD_TIMEOUT_MILLISECONDS = 5 * 1000L;
-    private final BasketballPlayerStatisticalService basketballPlayerStatisticalService;
+    private final BasketballPlayerStatisticsService basketballPlayerStatisticsService;
 
-    public NBAPlayerStatisticsController(BasketballPlayerStatisticalService basketballPlayerStatisticalService) {
-        this.basketballPlayerStatisticalService = requireNonNull(basketballPlayerStatisticalService,
+    public NBAPlayerStatisticsController(BasketballPlayerStatisticsService basketballPlayerStatisticsService) {
+        this.basketballPlayerStatisticsService = requireNonNull(basketballPlayerStatisticsService,
                 "basketballStatisticService is required and missing");
     }
 
@@ -48,7 +48,7 @@ public final class NBAPlayerStatisticsController {
                                                                                  @RequestHeader(NBA_DATA_SOURCE) BasketballStatisticsDataSource basketballLeagueDataSourceHeader) {
         log.info("J1 - #1) Hit endpoint /api/bball//nba/player/firstName/{firstName}/lastName/{lastName}/season/{season}");
 
-        return basketballPlayerStatisticalService
+        return basketballPlayerStatisticsService
                 .getNBABasicStats(basketballLeagueDataSourceHeader, new BasketballPlayerInfo(firstName, lastName), season)
                 .whenComplete((ignored, throwable) -> {
                     if (throwable != null) {
@@ -62,7 +62,7 @@ public final class NBAPlayerStatisticsController {
     @PostMapping
     public CompletableFuture<BasketballPlayerStatisticsProfile> uploadNewBasketballPlayerStatisticsProfile(
             @RequestBody BasketballPlayerStatisticsProfile newBasketballPlayerStatisticsProfile) {
-        return basketballPlayerStatisticalService.uploadNewBasketballPlayerStats(newBasketballPlayerStatisticsProfile)
+        return basketballPlayerStatisticsService.uploadNewBasketballPlayerStats(newBasketballPlayerStatisticsProfile)
                 .whenComplete((ignored, throwable) -> {
                     if (throwable != null) {
                         log.error("POST /api/nba - Oops! We had an Exception[{}]", throwable.getMessage());

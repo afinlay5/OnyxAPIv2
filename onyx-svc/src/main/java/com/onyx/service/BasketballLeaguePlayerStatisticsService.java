@@ -5,8 +5,8 @@ import com.onyx.commons.model.BasketballStatisticsDataSource;
 
 import java.util.concurrent.CompletableFuture;
 
-/* Operations for Basketball League Statistical Service */
-public interface BasketballLeaguePlayerStatisticalService {
+/* Operations for Basketball League Statistics Service */
+public interface BasketballLeaguePlayerStatisticsService {
 
     /**
      * Retrieves Basic Players Statistics from this League
