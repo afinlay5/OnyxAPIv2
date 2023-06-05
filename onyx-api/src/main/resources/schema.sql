@@ -3,7 +3,7 @@ create table player_statistic
     first_name                  text                not null,
     last_name                   text                not null,
     season                      integer             not null,
-    dob                         date,
+    date_of_birth               date,
     points_per_game             float               not null,
     rebounds_per_game           float               not null,
     assists_per_game            float               not null,
