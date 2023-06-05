@@ -41,7 +41,7 @@ public final class NBAPlayerStatisticsController {
         return "hello, world!";
     }
 
-    @GetMapping("/nba/player/firstName/{firstName}/lastName/{lastName}/season/{season}")
+    @GetMapping("/player/firstName/{firstName}/lastName/{lastName}/season/{season}")
     public CompletableFuture<BasketballPlayerStatisticsProfile> getNBABasicStats(@PathVariable String firstName,
                                                                                  @PathVariable String lastName,
                                                                                  @PathVariable int season,

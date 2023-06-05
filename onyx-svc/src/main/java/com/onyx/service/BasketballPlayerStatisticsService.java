@@ -22,7 +22,8 @@ public final class BasketballPlayerStatisticsService {
     //Factory Pattern
     private final BasketballPlayerStatisticsServiceFactory basketballPlayerStatisticsServiceFactory;
 
-    private final BasketballPlayerStatisticsDALFactory basketballPlayerStatisticsDALFactory;
+    private BasketballPlayerStatisticsDALFactory basketballPlayerStatisticsDALFactory = null;
+
 
     public CompletableFuture<BasketballPlayerStatisticsProfile> getNBABasicStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
                                                                                  BasketballPlayerInfo basketballPlayerInfo, int season) {
