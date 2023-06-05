@@ -5,6 +5,7 @@ import com.onyx.commons.model.BasketballPlayerStatisticsProfile;
 import com.onyx.commons.model.BasketballStatisticsDataSource;
 import com.onyx.service.BasketballPlayerStatisticsService;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,7 +75,7 @@ public final class NBAPlayerStatisticsController {
 
     @PostMapping("/upload")
     public DeferredResult<SortedSet<BasketballPlayerStatisticsProfile>> bulkUploadNewBasketballPlayerStatisticsProfile() {
-        var deferredResult = new DeferredResult<SortedSet<BasketballPlayerStatisticsProfile>>(BULK_UPLOAD_TIMEOUT_MILLISECONDS);
+        val deferredResult = new DeferredResult<SortedSet<BasketballPlayerStatisticsProfile>>(BULK_UPLOAD_TIMEOUT_MILLISECONDS);
 
         return deferredResult;
     }

@@ -5,6 +5,7 @@ import com.onyx.commons.model.BasketballPlayerStatisticsDataStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
@@ -42,9 +43,9 @@ public class DynamicDataSourceRoutingInterceptor implements AsyncHandlerIntercep
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        var header = request.getHeader(TARGET_DATA_STORE_DESTINATION);
+        val header = request.getHeader(TARGET_DATA_STORE_DESTINATION);
         if (StringUtils.isNotBlank(header)) {
-            var dataStore = BasketballPlayerStatisticsDataStore.getFromFmtAgnosticString(header);
+            val dataStore = BasketballPlayerStatisticsDataStore.getFromFmtAgnosticString(header);
             if (dataStore != null && datastores.containsKey(dataStore))
                 BasketballPlayerStatisticsDataStoreContextContainer.setContext(dataStore);
         }

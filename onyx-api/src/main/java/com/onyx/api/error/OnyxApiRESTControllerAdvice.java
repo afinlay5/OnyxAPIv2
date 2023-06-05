@@ -3,6 +3,7 @@ package com.onyx.api.error;
 import com.onyx.commons.exception.BasketballStatisticsNotFoundException;
 import com.onyx.commons.exception.OnyxInternalServerErrorException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,7 +29,7 @@ public class OnyxApiRESTControllerAdvice {
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<OnyxApiProblemDetail> badRequestHandler(IllegalArgumentException exc, ServletWebRequest servletWebRequest) {
-        var request = requireHttpServletRequest(servletWebRequest.getRequest());
+        val request = requireHttpServletRequest(servletWebRequest.getRequest());
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(BAD_REQUEST_TITLE)
@@ -47,7 +48,7 @@ public class OnyxApiRESTControllerAdvice {
      */
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<OnyxApiProblemDetail> internalServerErrorHandler(IllegalStateException exc, ServletWebRequest servletWebRequest) {
-        var request = requireHttpServletRequest(servletWebRequest.getRequest());
+        val request = requireHttpServletRequest(servletWebRequest.getRequest());
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(INTERNAL_SERVER_ERROR_TITLE)
@@ -67,7 +68,7 @@ public class OnyxApiRESTControllerAdvice {
      */
     @ExceptionHandler(OnyxInternalServerErrorException.class)
     public ResponseEntity<OnyxApiProblemDetail> internalServerErrorHandler(OnyxInternalServerErrorException exc, ServletWebRequest servletWebRequest) {
-        var request = requireHttpServletRequest(servletWebRequest.getRequest());
+        val request = requireHttpServletRequest(servletWebRequest.getRequest());
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(INTERNAL_SERVER_ERROR_TITLE)
@@ -88,7 +89,7 @@ public class OnyxApiRESTControllerAdvice {
      */
     @ExceptionHandler(BasketballStatisticsNotFoundException.class)
     public ResponseEntity<OnyxApiProblemDetail> notFoundHandler(BasketballStatisticsNotFoundException exc, ServletWebRequest servletWebRequest) {
-        var request = requireHttpServletRequest(servletWebRequest.getRequest());
+        val request = requireHttpServletRequest(servletWebRequest.getRequest());
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
                 .withTitle(exc.getTitle())

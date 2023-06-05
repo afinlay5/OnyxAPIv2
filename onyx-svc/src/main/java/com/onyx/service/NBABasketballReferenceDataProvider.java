@@ -182,7 +182,7 @@ public final class NBABasketballReferenceDataProvider {
 
 
     private float getPPGFromXML(List<String> targetXml) {
-        var targetXmlIt = targetXml.iterator();
+        val targetXmlIt = targetXml.iterator();
 
         while (targetXmlIt.hasNext()) {
             val line = Preconditions.requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_PPG_FROM_XML_EXC_STR);
@@ -203,7 +203,7 @@ public final class NBABasketballReferenceDataProvider {
     }
 
     private float getRPGFromXML(List<String> targetXml) {
-        var targetXmlIt = targetXml.iterator();
+        val targetXmlIt = targetXml.iterator();
 
         while (targetXmlIt.hasNext()) {
             val line = Preconditions.requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_RPG_FROM_XML_EXC_STR);
@@ -224,7 +224,7 @@ public final class NBABasketballReferenceDataProvider {
     }
 
     private float getAPGFromXML(List<String> targetXml) {
-        var targetXmlIt = targetXml.iterator();
+        val targetXmlIt = targetXml.iterator();
 
         while (targetXmlIt.hasNext()) {
             val line = Preconditions.requireNotBlank(targetXmlIt.next(), CANNOT_PARSE_APG_FROM_XML_EXC_STR);
