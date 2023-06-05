@@ -1,5 +1,6 @@
 package com.onyx.dal.config;
 
+import com.onyx.commons.annotation.TODO;
 import com.onyx.dal.NBAPlayerStatisticsDAL;
 import com.onyx.dal.WNBAPlayerStatisticsDAL;
 import com.onyx.dal.impl.NBAPlayerStatisticsJDBCDALImpl;
@@ -16,18 +17,23 @@ import org.springframework.context.annotation.Configuration;
 //@EntityScan(basePackageClasses = OnyxJpaDAOEntity.class)
 @Configuration
 public class OnyxDALBeans {
-    @Bean
+    public static final String NBA_STAT_JPA_DAL_IMPL = "NBA_STAT_JPA_DAL_IMPL";
+    public static final String NBA_STAT_JDBC_DAL_IMPL = "NBA_STAT_JDBC_DAL_IMPL";
+    public static final String WNBA_STAT_JPA_DAL_IMPL = "NBA_STAT_JPA_DAL_IMPL";
+
+    @Bean(NBA_STAT_JPA_DAL_IMPL)
     public NBAPlayerStatisticsDAL nbaPlayerStatisticsJPADALImpl() {
         return new NBAPlayerStatisticsJPADALImpl();
     }
 
-    @Bean
+    @Bean(NBA_STAT_JDBC_DAL_IMPL)
     public NBAPlayerStatisticsDAL nbaPlayerStatisticsJDBCDALImpl() {
         return new NBAPlayerStatisticsJDBCDALImpl();
     }
 
-    @Bean
-    public WNBAPlayerStatisticsDAL wnbaPlayerStatisticsDALImpl1() {
+    @TODO("Not Yet Implemented")
+    @Bean(WNBA_STAT_JPA_DAL_IMPL)
+    public WNBAPlayerStatisticsDAL wnbaPlayerStatisticsJPADALImpl() {
         return new WNBAPlayerStatisticsDALImpl();
     }
 }

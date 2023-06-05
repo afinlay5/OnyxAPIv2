@@ -1,6 +1,7 @@
 package com.onyx.service.config;
 
-import com.onyx.commons.config.MetadataCommonBeans;
+import com.onyx.commons.config.OnyxCommonBeans;
+import com.onyx.dal.BasketballPlayerStatisticsDALFactory;
 import com.onyx.service.BasketballLeagueDataProviderFactory;
 import com.onyx.service.BasketballPlayerStatisticsService;
 import com.onyx.service.BasketballPlayerStatisticsServiceFactory;
@@ -12,8 +13,9 @@ import org.springframework.context.annotation.Import;
 
 import java.util.concurrent.ExecutorService;
 
-@Import({MetadataCommonBeans.class,
+@Import({OnyxCommonBeans.class,
         BasketballPlayerStatisticsServiceFactory.class,
+        BasketballPlayerStatisticsDALFactory.class,
         BasketballPlayerStatisticsService.class,
         NBAPlayerStatisticsService.class,
         BasketballLeagueDataProviderFactory.class})

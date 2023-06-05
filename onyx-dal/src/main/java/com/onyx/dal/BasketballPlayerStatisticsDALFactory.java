@@ -1,29 +1,33 @@
 package com.onyx.dal;
 
 import com.onyx.commons.beans.BasketballPlayerStatisticsDataStoreContextContainer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import static com.onyx.commons.util.Preconditions.requireNotNull;
+import static com.onyx.dal.config.OnyxDALBeans.NBA_STAT_JDBC_DAL_IMPL;
+import static com.onyx.dal.config.OnyxDALBeans.NBA_STAT_JPA_DAL_IMPL;
+import static com.onyx.dal.config.OnyxDALBeans.WNBA_STAT_JPA_DAL_IMPL;
+
 
 @Service
-@SuppressWarnings("java:S1659") //Idc about this.
 public final class BasketballPlayerStatisticsDALFactory {
-    private final NBAPlayerStatisticsDAL nbaPlayerStatisticsDS1DALImpl, nbaPlayerStatisticsDS2DALImpl;
-    private final WNBAPlayerStatisticsDAL wnbaPlayerStatisticsDALImpl1; //TODO Change name
+    private final NBAPlayerStatisticsDAL nbaPlayerStatisticsJPADALImpl;
+    private final NBAPlayerStatisticsDAL nbaPlayerStatisticsJDBCDALImpl;
+    private final WNBAPlayerStatisticsDAL wnbaPlayerStatisticsJPADALImpl;
 
-    public BasketballPlayerStatisticsDALFactory(NBAPlayerStatisticsDAL nbaPlayerStatisticsDS1DALImpl,
-                                                NBAPlayerStatisticsDAL nbaPlayerStatisticsDS2DALImpl,
-                                                WNBAPlayerStatisticsDAL wnbaPlayerStatisticsDALImpl1) {
-        this.nbaPlayerStatisticsDS1DALImpl = requireNotNull(nbaPlayerStatisticsDS1DALImpl, "nbaPlayerStatisticsDS1DALImpl");
-        this.nbaPlayerStatisticsDS2DALImpl = requireNotNull(nbaPlayerStatisticsDS2DALImpl, "nbaPlayerStatisticsDS2DALImpl");
-        this.wnbaPlayerStatisticsDALImpl1 = requireNotNull(wnbaPlayerStatisticsDALImpl1, "wnbaPlayerStatisticsDALImpl1");
-
+    public BasketballPlayerStatisticsDALFactory(@Qualifier(NBA_STAT_JPA_DAL_IMPL) NBAPlayerStatisticsDAL nbaPlayerStatisticsJPADALImpl,
+                                                @Qualifier(NBA_STAT_JDBC_DAL_IMPL) NBAPlayerStatisticsDAL nbaPlayerStatisticsJDBCDALImpl,
+                                                @Qualifier(WNBA_STAT_JPA_DAL_IMPL) WNBAPlayerStatisticsDAL wnbaPlayerStatisticsJPADALImpl) {
+        this.nbaPlayerStatisticsJPADALImpl = nbaPlayerStatisticsJPADALImpl;
+        this.nbaPlayerStatisticsJDBCDALImpl = nbaPlayerStatisticsJDBCDALImpl;
+        this.wnbaPlayerStatisticsJPADALImpl = wnbaPlayerStatisticsJPADALImpl;
     }
+
 
     public NBAPlayerStatisticsDAL getNbaPlayerStatisticsDAL() {
         return switch (BasketballPlayerStatisticsDataStoreContextContainer.getContext()) {
-            case MYDS1 -> nbaPlayerStatisticsDS1DALImpl;
-            case MYDS2 -> nbaPlayerStatisticsDS2DALImpl;
+            case MYDS1 -> nbaPlayerStatisticsJPADALImpl;
+            case MYDS2 -> nbaPlayerStatisticsJDBCDALImpl;
         };
     }
 }

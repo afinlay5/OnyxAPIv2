@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.node.TextNode;
+import com.onyx.commons.annotation.TODO;
 import com.onyx.commons.model.BasketballStatisticsDataSource;
 import lombok.val;
 
@@ -15,6 +16,8 @@ import static java.util.Objects.requireNonNull;
 /**
  * Performs stripping and case-insensitive deserialization of {@link BasketballStatisticsDataSource}
  */
+
+@TODO("This is broken")
 public class BasketballStatisticsDataSourceDeserializer extends JsonDeserializer<BasketballStatisticsDataSource> {
 
     /**
