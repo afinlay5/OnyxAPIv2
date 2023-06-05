@@ -19,9 +19,6 @@ public class BasketballPlayerStatisticEntity {
     @EmbeddedId
     BasketballPlayerStatisticID id;
 
-    @Column(name = "date_of_birth")
-    String dob;
-
     @Column(name = "points_per_game")
     Float ppg;
 
@@ -49,7 +46,6 @@ public class BasketballPlayerStatisticEntity {
 
     private BasketballPlayerStatisticEntity(BasketballPlayerStatisticEntityBuilder builder) {
         id = builder.id;
-        dob = builder.dob;
         ppg = builder.ppg;
         rpg = builder.rpg;
         apg = builder.apg;
@@ -91,7 +87,6 @@ public class BasketballPlayerStatisticEntity {
 
     public static class BasketballPlayerStatisticEntityBuilder {
         private BasketballPlayerStatisticID id;
-        private String dob;
         private Float ppg;
         private Float rpg;
         private Float apg;
@@ -105,11 +100,6 @@ public class BasketballPlayerStatisticEntity {
 
         public BasketballPlayerStatisticEntityBuilder id(BasketballPlayerStatisticID id) {
             this.id = id;
-            return this;
-        }
-
-        public BasketballPlayerStatisticEntityBuilder dob(String dob) {
-            this.dob = dob;
             return this;
         }
 
@@ -153,7 +143,7 @@ public class BasketballPlayerStatisticEntity {
         }
 
         public String toString() {
-            return "BasketballPlayerStatisticEntity.BasketballPlayerStatisticEntityBuilder(id=" + this.id + ", dob=" + this.dob + ", ppg=" + this.ppg + ", rpg=" + this.rpg + ", apg=" + this.apg + ", createdBy=" + this.createdBy + ", createdTimeStamp=" + this.createdTimeStamp + ", updatedBy=" + this.updatedBy + ", updatedTimeStamp=" + this.updatedTimeStamp + ")";
+            return "BasketballPlayerStatisticEntity.BasketballPlayerStatisticEntityBuilder(id=" + this.id + ", ppg=" + this.ppg + ", rpg=" + this.rpg + ", apg=" + this.apg + ", createdBy=" + this.createdBy + ", createdTimeStamp=" + this.createdTimeStamp + ", updatedBy=" + this.updatedBy + ", updatedTimeStamp=" + this.updatedTimeStamp + ")";
         }
     }
 }
