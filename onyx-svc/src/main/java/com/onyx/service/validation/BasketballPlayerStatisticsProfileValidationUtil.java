@@ -31,7 +31,7 @@ public class BasketballPlayerStatisticsProfileValidationUtil {
             BasicBasketballPlayerStatistics basicBasketballPlayerStatistics) {
         Preconditions.checkNotNull(basicBasketballPlayerStatistics,
                 "BasketballPlayerStatisticsProfile -> basicBasketballPlayerStatistics is required and missing");
-        Preconditions.checkIsGreaterThan(basicBasketballPlayerStatistics.getSeason(), BEGINNING_OF_ALL_BASKETBALL,
+        Preconditions.checkIsGreaterThan(basicBasketballPlayerStatistics.season(), BEGINNING_OF_ALL_BASKETBALL,
                 String.format("Season must be beyond[%d]", BEGINNING_OF_ALL_BASKETBALL));
         return basicBasketballPlayerStatistics;
     }

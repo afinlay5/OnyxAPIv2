@@ -68,12 +68,11 @@ public final class NBABasketballReferenceDataProvider {
                 Preconditions.requireMapHasKeys(parsedHtmlMap, "Could not find one or more basic stats", PPG, RPG, APG);
 
                 log.info("J1 - #4B) We found the player and their data. Time to return it to client.");
-                return BasicBasketballPlayerStatistics.builder()
-                        .season(season)
-                        .ppg(parsedHtmlMap.get(PPG))
-                        .rpg(parsedHtmlMap.get(RPG))
-                        .apg(parsedHtmlMap.get(APG))
-                        .build();
+                return new BasicBasketballPlayerStatistics(
+                        season,
+                        parsedHtmlMap.get(PPG),
+                        parsedHtmlMap.get(RPG),
+                        parsedHtmlMap.get(APG));
             } else {
                 throw BasketballStatisticsNotFoundException.newBuilder()
                         .withTitle("No Data Found for Specified Player")

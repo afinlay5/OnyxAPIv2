@@ -51,7 +51,7 @@ public final class NBAPlayerStatisticsController {
         log.info("J1 - #1) Hit endpoint /api/bball//nba/player/firstName/{firstName}/lastName/{lastName}/season/{season}");
 
         return basketballPlayerStatisticsService
-                .getNBABasicStats(basketballLeagueDataSourceHeader, new BasketballPlayerInfo(firstName, lastName), season)
+                .getNBABasicStats(basketballLeagueDataSourceHeader, new BasketballPlayerInfo(firstName, lastName, null), season)
                 .whenComplete((ignored, throwable) -> {
                     if (throwable != null) {
                         log.error("J1 - #5) Oops! We had an Exception[{}]", throwable.getMessage());

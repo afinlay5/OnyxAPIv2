@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Data
 @Embeddable
@@ -19,14 +20,18 @@ public class BasketballPlayerStatisticID implements Serializable {
     @Column(name = "season")
     private int season;
 
+    @Column(name = "date_of_birth")
+    private LocalDate dob;
+
     protected BasketballPlayerStatisticID() {
         //Per JEE Spec
     }
 
     private BasketballPlayerStatisticID(BasketballPlayerStatisticIDBuilder builder) {
-        this.firstName = builder.firstName;
-        this.lastName = builder.lastName;
-        this.season = builder.season;
+        firstName = builder.firstName;
+        lastName = builder.lastName;
+        season = builder.season;
+        dob = builder.dob;
     }
 
     public static BasketballPlayerStatisticIDBuilder builder() {
@@ -37,6 +42,7 @@ public class BasketballPlayerStatisticID implements Serializable {
         private String firstName;
         private String lastName;
         private int season;
+        private LocalDate dob;
 
         BasketballPlayerStatisticIDBuilder() {
         }
@@ -53,6 +59,11 @@ public class BasketballPlayerStatisticID implements Serializable {
 
         public BasketballPlayerStatisticIDBuilder season(int season) {
             this.season = season;
+            return this;
+        }
+
+        public BasketballPlayerStatisticIDBuilder dob(LocalDate dob) {
+            this.dob = dob;
             return this;
         }
 

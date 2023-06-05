@@ -69,9 +69,9 @@ public class BasketballPlayerStatisticEntity {
                         .firstName(basketballPlayerInfo.firstName())
                         .lastName(basketballPlayerInfo.lastName())
                         .build())
-                .ppg(basketballPlayerStatistics.getPpg())
-                .rpg(basketballPlayerStatistics.getRpg())
-                .apg(basketballPlayerStatistics.getApg())
+                .ppg(basketballPlayerStatistics.ppg())
+                .rpg(basketballPlayerStatistics.rpg())
+                .apg(basketballPlayerStatistics.apg())
                 .createdBy("afinlay")
                 .createdTimeStamp(LocalDateTime.now())
                 .updatedBy("afinlay")
@@ -85,7 +85,7 @@ public class BasketballPlayerStatisticEntity {
 
     //Note - You can use a mapper class for this too, of course
     public BasketballPlayerStatisticsProfile toNewBasketballPlayerStatisticProfile() {
-        return new BasketballPlayerStatisticsProfile(new BasketballPlayerInfo(id.getFirstName(), id.getLastName()),
+        return new BasketballPlayerStatisticsProfile(new BasketballPlayerInfo(id.getFirstName(), id.getLastName(), id.getDob()),
                 new BasicBasketballPlayerStatistics(id.getSeason(), ppg, rpg, apg));
     }
 
