@@ -26,8 +26,16 @@ dependencies {
     // CVE-2022-1471 9.8 Deserialization of Untrusted Data vulnerability with high severity found
 //        exclude("org.yaml:snakeyaml:1.33")
 //    }
-//    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.1.0")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.1.0") {
+        // Checkmarx on 06/04/23
+        //     CVE-2022-41854 6.5 Out-of-bounds Write vulnerability with medium severity found
+        //     CVE-2022-1471 9.8 Deserialization of Untrusted Data vulnerability with high severity found
+        exclude("org.yaml:snakeyaml:1.33")
+    }
     implementation("org.springframework:spring-context:6.0.9")
+
+    runtimeOnly("com.h2database:h2:2.1.214")
+    runtimeOnly("org.postgresql:postgresql:42.6.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

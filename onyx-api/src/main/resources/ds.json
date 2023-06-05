@@ -1,0 +1,10 @@
+[
+  {
+    "name": "test",
+    "url": "",
+    "username": "OK",
+    "password": "OK",
+    "driverClassName": "org.h2.Driver",
+    "hibernateDialect": "org.hibernate.dialect.H2Dialect"
+  }
+]

@@ -26,7 +26,12 @@ public class OnyxApiBeans {
     @Bean(DATA_SOURCE_CONNECTION_DETAILS)
     public Map<BasketballPlayerStatisticsDataStore, DataSource> dataStoreConnectionDetails() {
         return Map.of(
-
+                //name
+                //url
+                //username
+                //pwd
+                //driverclassname
+                //hibernate dialect
         );
     }
 }
