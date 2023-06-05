@@ -11,13 +11,16 @@ import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapt
 import javax.sql.DataSource;
 import java.util.Map;
 
+import static com.onyx.api.config.OnyxApiBeans.DATA_SOURCE_CONNECTION_DETAILS;
+
 @Configuration
 public class RESTApiConfigurer implements WebMvcConfigurer {
 
-    private final Map<BasketballPlayerStatisticsDataStore, DataSource> dataStoreMap;
+    private final Map<BasketballPlayerStatisticsDataStore, DataSource> dataStoreConnectionDetails;
 
-    public RESTApiConfigurer(@Qualifier Map<BasketballPlayerStatisticsDataStore, DataSource> dataStoreMap) {
-        this.dataStoreMap = dataStoreMap;
+    public RESTApiConfigurer(@Qualifier(DATA_SOURCE_CONNECTION_DETAILS)
+                             Map<BasketballPlayerStatisticsDataStore, DataSource> dataStoreConnectionDetails) {
+        this.dataStoreConnectionDetails = dataStoreConnectionDetails;
     }
 
     /**
@@ -32,6 +35,6 @@ public class RESTApiConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(
                 new WebRequestHandlerInterceptorAdapter(
-                        new DynamicDataSourceRoutingInterceptor(dataStoreMap)));
+                        new DynamicDataSourceRoutingInterceptor(dataStoreConnectionDetails)));
     }
 }

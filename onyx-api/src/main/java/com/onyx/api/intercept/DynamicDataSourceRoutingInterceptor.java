@@ -47,11 +47,10 @@ public class DynamicDataSourceRoutingInterceptor implements WebRequestIntercepto
      * @param model   the map of model objects that will be exposed to the view
      *                (may be {@code null}). Can be used to analyze the exposed model
      *                and/or to add further model attributes, if desired.
-     * @throws Exception in case of errors
      */
     @Override
     public void postHandle(WebRequest request, ModelMap model) {
-        System.out.println("\nPOST HANDLE\n");
+        //Intentionally-Blank Override
     }
 
     /**
@@ -63,10 +62,9 @@ public class DynamicDataSourceRoutingInterceptor implements WebRequestIntercepto
      *
      * @param request the current web request
      * @param ex      exception thrown on handler execution, if any
-     * @throws Exception in case of errors
      */
     @Override
     public void afterCompletion(WebRequest request, Exception ex) {
-        System.out.println("\nAFTER COMPLETION\n");
+        //Intentionally-Blank Override
     }
 }
