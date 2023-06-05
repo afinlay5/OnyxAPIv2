@@ -25,7 +25,7 @@ public final class BasketballPlayerStatisticsDALFactory {
 
 
     public NBAPlayerStatisticsDAL getNbaPlayerStatisticsDAL() {
-        return switch (BasketballPlayerStatisticsDataStoreContextContainer.getContext()) {
+        return switch (BasketballPlayerStatisticsDataStoreContextContainer.getDelegate()) {
             case MYDS1 -> nbaPlayerStatisticsJPADALImpl;
             case MYDS2 -> nbaPlayerStatisticsJDBCDALImpl;
         };

@@ -1,4 +1,4 @@
-package com.onyx.dal.dao.repository;
+package com.onyx.dal.dao.jpa.repository;
 
 import org.springframework.stereotype.Repository;
 

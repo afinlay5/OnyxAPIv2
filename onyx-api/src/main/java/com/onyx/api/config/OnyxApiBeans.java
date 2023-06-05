@@ -18,6 +18,8 @@ import java.util.AbstractMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.onyx.commons.util.Constants.DATA_SOURCE_CONNECTION_DETAILS;
+
 @Import({
         OnyxApiRESTControllerAdvice.class,
         OnyxServiceBeans.class,
@@ -26,8 +28,7 @@ import java.util.stream.Collectors;
 })
 @Configuration
 public class OnyxApiBeans {
-    public static final String DATA_SOURCE_CONNECTION_DETAILS = "DATA_SOURCE_CONNECTION_DETAILS";
-    private static final URL DATASTORE_JSON_URL = OnyxApiApplication.class.getResource("/db.json");
+    private static final URL DATASTORE_JSON_URL = OnyxApiApplication.class.getResource("/ds.json");
 
     @Bean(DATA_SOURCE_CONNECTION_DETAILS)
     public Map<BasketballPlayerStatisticsDataStore, DataSource> dataStoreConnectionDetails() {
@@ -47,4 +48,5 @@ public class OnyxApiBeans {
                 })
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
+
 }

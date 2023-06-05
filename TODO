@@ -2,10 +2,19 @@
 
 2) Modularize and require modular dependencies
 
-3) Make DAL and connect to JDBC in addition to JPA
+3) Add/Configure Actuator
 
-4) Multi ORM with JPA
+4) Remaining javadocs
 
-5) Add/Configure Actuator
 
-6) Remaining javadocs
+
+//@Lombok.ToString -- Not supported for anything other than class/enum
+//@Lombok. EqualsAndHashCode -- only supported for a class
+
+//The api configuration should be used to declare dependencies which are exported by the library API,
+// whereas the implementation configuration should be used to declare dependencies which are internal to the component.
+
+//./gradlew :onyx-commons:clean :onyx-commons:build
+//./gradlew :onyx-dal:clean :onyx-dal:build
+//./gradlew :onyx-svc:clean :onyx-svc:build
+//./gradlew :onyx-api:clean :onyx-api:build

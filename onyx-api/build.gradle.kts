@@ -39,11 +39,3 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
-//The api configuration should be used to declare dependencies which are exported by the library API,
-// whereas the implementation configuration should be used to declare dependencies which are internal to the component.
-
-//./gradlew :onyx-commons:clean :onyx-commons:build
-//./gradlew :onyx-dal:clean :onyx-dal:build
-//./gradlew :onyx-svc:clean :onyx-svc:build
-//./gradlew :onyx-api:clean :onyx-api:build

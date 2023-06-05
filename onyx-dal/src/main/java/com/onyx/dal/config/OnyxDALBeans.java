@@ -3,20 +3,24 @@ package com.onyx.dal.config;
 import com.onyx.commons.annotation.TODO;
 import com.onyx.dal.NBAPlayerStatisticsDAL;
 import com.onyx.dal.WNBAPlayerStatisticsDAL;
+import com.onyx.dal.dao.entity.OnyxJpaDAOEntity;
+import com.onyx.dal.dao.jpa.repository.OnyxJpaRepo;
 import com.onyx.dal.impl.NBAPlayerStatisticsJDBCDALImpl;
 import com.onyx.dal.impl.NBAPlayerStatisticsJPADALImpl;
 import com.onyx.dal.impl.WNBAPlayerStatisticsDALImpl;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-//import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Import(JpaMultiDSConfig.class)
-//@EnableJpaRepositories(
-//        basePackageClasses = OnyxJpaRepo.class,
-//        includeFilters = @ComponentScan.Filter(classes = OnyxJpaRepo.class)
-//)
-//@EntityScan(basePackageClasses = OnyxJpaDAOEntity.class)
+@EnableJpaRepositories(
+        basePackageClasses = OnyxJpaRepo.class,
+        includeFilters = @ComponentScan.Filter(classes = OnyxJpaRepo.class)
+)
+@EntityScan(basePackageClasses = OnyxJpaDAOEntity.class)
 @Configuration
 public class OnyxDALBeans {
     public static final String NBA_STAT_JPA_DAL_IMPL = "NBA_STAT_JPA_DAL_IMPL";

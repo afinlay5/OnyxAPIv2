@@ -1,5 +1,9 @@
 package com.onyx.dal.config;
 
+import com.onyx.commons.model.BasketballPlayerStatisticsDataStore;
+import com.onyx.dal.dao.entity.OnyxJpaDAOEntity;
+import com.onyx.dal.dao.orm.JpaDialects;
+import com.onyx.dal.ds.BasketballStatisticsRoutingDataSource;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,14 +16,16 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
+import java.util.Map;
 import java.util.Properties;
 
-import static com.onyx.commons.util.Constants.JPA_DATA_SOURCE;
-import static com.onyx.commons.util.Constants.JPA_ENTITY_PACKAGE;
-import static java.util.Objects.requireNonNull;
+import static com.onyx.commons.util.Constants.DATA_SOURCE_CONNECTION_DETAILS;
+import static com.onyx.commons.util.Preconditions.requireMapNotEmpty;
 
 @Configuration
 public class JpaMultiDSConfig {
+    private static final String JPA_ENTITY_PACKAGE = OnyxJpaDAOEntity.class.getPackageName();
+
     @Bean("transactionManager")
     public JpaTransactionManager getTransactionManager(EntityManagerFactory entityManagerFactory) {
         val transactionManager = new JpaTransactionManager();
@@ -29,13 +35,16 @@ public class JpaMultiDSConfig {
 
     @Bean("entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(
-            @Qualifier(JPA_DATA_SOURCE) DataSource dataSource,
-            @Qualifier(JPA_ENTITY_PACKAGE) String jpaEntityPackage,
+            @Qualifier(DATA_SOURCE_CONNECTION_DETAILS) Map<BasketballPlayerStatisticsDataStore, DataSource> dataSourceConnectionDetails,
             Environment environment) {
-        requireNonNull(dataSource, "dataSource was required and is missing");
+        requireMapNotEmpty(dataSourceConnectionDetails, "dataSourceConnectionDetails was required and is missing");
+
         val entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource);
-        entityManagerFactoryBean.setPackagesToScan(jpaEntityPackage);
+        entityManagerFactoryBean.setDataSource(
+                new BasketballStatisticsRoutingDataSource<>(dataSourceConnectionDetails)
+        );
+        entityManagerFactoryBean.setJpaDialect(JpaDialects.valueOf(environment.getProperty("ds.jpaDialect")).dialect());
+        entityManagerFactoryBean.setPackagesToScan(JPA_ENTITY_PACKAGE);
         entityManagerFactoryBean.setJpaProperties(additionalJpaProperties(environment));
         val vendorAdapter = new HibernateJpaVendorAdapter();
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
@@ -58,4 +67,5 @@ public class JpaMultiDSConfig {
                 environment.getProperty("ds.jdbc.lob.non_contextual_creation", ""));
         return additionalJpaProperties;
     }
+
 }

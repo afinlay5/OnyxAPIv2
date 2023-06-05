@@ -11,7 +11,7 @@ public enum BasketballPlayerStatisticsDataStore {
 
     @JsonCreator
     public static BasketballPlayerStatisticsDataStore fromFmtAgnosticString(String basketballPlayerStatisticsDataStore) {
-        val targetConstant = fromFmtAgnosticString(basketballPlayerStatisticsDataStore);
+        val targetConstant = getFromFmtAgnosticString(basketballPlayerStatisticsDataStore);
         if (targetConstant == null) {
             throw new IllegalArgumentException("Basketball Player Statistics Data Store does not exist");
         } else {

@@ -33,7 +33,7 @@ public class DynamicDataSourceRoutingInterceptor implements WebRequestIntercepto
         if (StringUtils.isNotBlank(header)) {
             val dataStore = BasketballPlayerStatisticsDataStore.getFromFmtAgnosticString(header);
             if (dataStore != null && datastores.containsKey(dataStore))
-                BasketballPlayerStatisticsDataStoreContextContainer.setContext(dataStore);
+                BasketballPlayerStatisticsDataStoreContextContainer.set(dataStore);
         }
     }
 

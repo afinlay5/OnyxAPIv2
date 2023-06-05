@@ -11,7 +11,7 @@ import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapt
 import javax.sql.DataSource;
 import java.util.Map;
 
-import static com.onyx.api.config.OnyxApiBeans.DATA_SOURCE_CONNECTION_DETAILS;
+import static com.onyx.commons.util.Constants.DATA_SOURCE_CONNECTION_DETAILS;
 
 @Configuration
 public class RESTApiConfigurer implements WebMvcConfigurer {
