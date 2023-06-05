@@ -19,7 +19,7 @@ public class BasketballPlayerStatisticEntity {
     @EmbeddedId
     BasketballPlayerStatisticID id;
 
-    @Column(name = "dob")
+    @Column(name = "date_of_birth")
     String dob;
 
     @Column(name = "points_per_game")
