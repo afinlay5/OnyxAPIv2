@@ -26,6 +26,7 @@ dependencies {
 
 
     implementation("com.google.guava:guava:32.0.0-jre")
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("org.apache.logging.log4j:log4j-api:2.20.0")

@@ -34,6 +34,10 @@ dependencies {
     }
     implementation("org.springframework:spring-context:6.0.9")
 
+    /*
+    CVE-2022-45868 7.8 Cleartext Storage of Sensitive Information vulnerability with medium severity found
+    CVE-2022-45868 7.8 Cleartext Storage of Sensitive Information vulnerability with medium severity foun
+     */
     runtimeOnly("com.h2database:h2:2.1.214")
     runtimeOnly("org.postgresql:postgresql:42.6.0")
 
