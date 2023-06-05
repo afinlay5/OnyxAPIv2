@@ -1,15 +1,13 @@
 package com.onyx.api.intercept.config;
 
 import com.onyx.api.intercept.DynamicDataSourceRoutingInterceptor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter;
 
 @Configuration
-@RequiredArgsConstructor
-public class RESTApiMvcConfigurer implements WebMvcConfigurer {
-    private final DynamicDataSourceRoutingInterceptor dynamicDataSourceRoutingInterceptor;
+public class RESTApiConfigurer implements WebMvcConfigurer {
 
     /**
      * Add Spring MVC lifecycle interceptors for pre- and post-processing of
@@ -21,7 +19,8 @@ public class RESTApiMvcConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(dynamicDataSourceRoutingInterceptor)
-                .addPathPatterns("/*");
+        registry.addInterceptor(
+                new WebRequestHandlerInterceptorAdapter(
+                        new DynamicDataSourceRoutingInterceptor(java.util.Map.of())));
     }
 }

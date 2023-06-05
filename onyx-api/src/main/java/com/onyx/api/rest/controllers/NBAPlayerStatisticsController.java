@@ -65,8 +65,7 @@ public final class NBAPlayerStatisticsController {
     public CompletableFuture<BasketballPlayerStatisticsProfile> uploadNewBasketballPlayerStatisticsProfile(
             @RequestBody BasketballPlayerStatisticsProfile newBasketballPlayerStatisticsProfile,
             @RequestHeader(TARGET_DATA_STORE_DESTINATION) String targetDataStoreDestination) {
-        return basketballPlayerStatisticsService.uploadNewBasketballPlayerStats(
-                        newBasketballPlayerStatisticsProfile, targetDataStoreDestination)
+        return basketballPlayerStatisticsService.uploadNewBasketballPlayerStats(newBasketballPlayerStatisticsProfile)
                 .whenComplete((ignored, throwable) -> {
                     if (throwable != null) {
                         log.error("POST /api/nba - Oops! We had an Exception[{}]", throwable.getMessage());

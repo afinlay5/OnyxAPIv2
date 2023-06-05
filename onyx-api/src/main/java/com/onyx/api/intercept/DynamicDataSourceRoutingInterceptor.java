@@ -2,56 +2,71 @@ package com.onyx.api.intercept;
 
 import com.onyx.commons.beans.BasketballPlayerStatisticsDataStoreContextContainer;
 import com.onyx.commons.model.BasketballPlayerStatisticsDataStore;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.AsyncHandlerInterceptor;
-import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.context.request.WebRequestInterceptor;
 
 import javax.sql.DataSource;
 import java.util.Map;
 
 import static com.onyx.commons.util.Constants.TARGET_DATA_STORE_DESTINATION;
 
-@Component
 @RequiredArgsConstructor
-public class DynamicDataSourceRoutingInterceptor implements HandlerInterceptor {
+public class DynamicDataSourceRoutingInterceptor implements WebRequestInterceptor {
 
     private final Map<BasketballPlayerStatisticsDataStore, DataSource> datastores;
 
     /**
-     * Interception point before the execution of a handler. Called after
-     * HandlerMapping determined an appropriate handler object, but before
-     * HandlerAdapter invokes the handler.
-     * <p>DispatcherServlet processes a handler in an execution chain, consisting
-     * of any number of interceptors, with the handler itself at the end.
-     * With this method, each interceptor can decide to abort the execution chain,
-     * typically sending an HTTP error or writing a custom response.
-     * <p><strong>Note:</strong> special considerations apply for asynchronous
-     * request processing. For more details see
-     * {@link AsyncHandlerInterceptor}.
-     * <p>The default implementation returns {@code true}.
+     * Intercept the execution of a request handler <i>before</i> its invocation.
+     * <p>Allows for preparing context resources (such as a Hibernate Session)
+     * and expose them as request attributes or as thread-local objects.
      *
-     * @param request  current HTTP request
-     * @param response current HTTP response
-     * @param handler  chosen handler to execute, for type and/or instance evaluation
-     * @return {@code true} if the execution chain should proceed with the
-     * next interceptor or the handler itself. Else, DispatcherServlet assumes
-     * that this interceptor has already dealt with the response itself.
+     * @param request the current web request
      * @throws Exception in case of errors
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public void preHandle(WebRequest request) {
         val header = request.getHeader(TARGET_DATA_STORE_DESTINATION);
         if (StringUtils.isNotBlank(header)) {
             val dataStore = BasketballPlayerStatisticsDataStore.getFromFmtAgnosticString(header);
             if (dataStore != null && datastores.containsKey(dataStore))
                 BasketballPlayerStatisticsDataStoreContextContainer.setContext(dataStore);
         }
+    }
 
-        return HandlerInterceptor.super.preHandle(request, response, handler);
+    /**
+     * Intercept the execution of a request handler <i>after</i> its successful
+     * invocation, right before view rendering (if any).
+     * <p>Allows for modifying context resources after successful handler
+     * execution (for example, flushing a Hibernate Session).
+     *
+     * @param request the current web request
+     * @param model   the map of model objects that will be exposed to the view
+     *                (may be {@code null}). Can be used to analyze the exposed model
+     *                and/or to add further model attributes, if desired.
+     * @throws Exception in case of errors
+     */
+    @Override
+    public void postHandle(WebRequest request, ModelMap model) {
+        System.out.println("\nPOST HANDLE\n");
+    }
+
+    /**
+     * Callback after completion of request processing, that is, after rendering
+     * the view. Will be called on any outcome of handler execution, thus allows
+     * for proper resource cleanup.
+     * <p>Note: Will only be called if this interceptor's {@code preHandle}
+     * method has successfully completed!
+     *
+     * @param request the current web request
+     * @param ex      exception thrown on handler execution, if any
+     * @throws Exception in case of errors
+     */
+    @Override
+    public void afterCompletion(WebRequest request, Exception ex) {
+        System.out.println("\nAFTER COMPLETION\n");
     }
 }

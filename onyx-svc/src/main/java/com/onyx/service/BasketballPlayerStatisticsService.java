@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
 
-import static com.onyx.commons.util.Constants.TARGET_DATA_STORE_DESTINATION;
 import static com.onyx.commons.util.Preconditions.checkNotBlank;
 import static com.onyx.service.validation.BasketballPlayerStatisticsProfileValidationUtil.validateBasicBasketballPlayerStaticsProfileRecord;
 
@@ -46,11 +45,8 @@ public final class BasketballPlayerStatisticsService {
     }
 
     public CompletableFuture<BasketballPlayerStatisticsProfile> uploadNewBasketballPlayerStats(
-            BasketballPlayerStatisticsProfile basketballPlayerStatisticsProfile, String targetDataStoreHeader) {
+            BasketballPlayerStatisticsProfile basketballPlayerStatisticsProfile) {
         validateBasicBasketballPlayerStaticsProfileRecord(basketballPlayerStatisticsProfile);
-        checkNotBlank(targetDataStoreHeader, String.format("%s header is required and missing",
-                TARGET_DATA_STORE_DESTINATION));
-
 
         return basketballPlayerStatisticsDALFactory.getNbaPlayerStatisticsDAL()
                 .persistBasketballPlayerStats(basketballPlayerStatisticsProfile);
