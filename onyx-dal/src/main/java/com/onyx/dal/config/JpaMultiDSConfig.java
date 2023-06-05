@@ -2,7 +2,8 @@ package com.onyx.dal.config;
 
 import com.onyx.commons.model.BasketballPlayerStatisticsDataStore;
 import com.onyx.dal.dao.entity.OnyxJpaDAOEntity;
-import com.onyx.dal.dao.orm.JpaDialects;
+import com.onyx.dal.dao.orm.JPADialects;
+import com.onyx.dal.dao.orm.JPAVendorAdapters;
 import com.onyx.dal.ds.BasketballStatisticsRoutingDataSource;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.val;
@@ -13,7 +14,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
 import java.util.Map;
@@ -43,11 +43,10 @@ public class JpaMultiDSConfig {
         entityManagerFactoryBean.setDataSource(
                 new BasketballStatisticsRoutingDataSource<>(dataSourceConnectionDetails)
         );
-        entityManagerFactoryBean.setJpaDialect(JpaDialects.valueOf(environment.getProperty("ds.jpaDialect")).dialect());
+        entityManagerFactoryBean.setJpaDialect(JPADialects.valueOf(environment.getProperty("ds.jpaDialect")).dialect());
         entityManagerFactoryBean.setPackagesToScan(JPA_ENTITY_PACKAGE);
         entityManagerFactoryBean.setJpaProperties(additionalJpaProperties(environment));
-        val vendorAdapter = new HibernateJpaVendorAdapter();
-        entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
+        entityManagerFactoryBean.setJpaVendorAdapter(JPAVendorAdapters.valueOf(environment.getProperty("ds.jpaVendorAdapter")).adapter());
 
         return entityManagerFactoryBean;
     }

@@ -5,14 +5,14 @@ import org.springframework.orm.jpa.JpaDialect;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 
-public enum JpaDialects {
+public enum JPADialects {
     DEFAULT_DIALECT(new DefaultJpaDialect()),
     ECLIPSE_LINK_DIALECT(new EclipseLinkJpaDialect()),
     HIBERNATE_DIALECT(new HibernateJpaDialect());
 
     private final JpaDialect jpaDialect;
 
-    JpaDialects(JpaDialect jpaDialect) {
+    JPADialects(JpaDialect jpaDialect) {
         this.jpaDialect = jpaDialect;
     }
 
