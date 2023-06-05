@@ -52,7 +52,7 @@ public record BasketballPlayerStatisticEntity(
 
     //Note - You can use a mapper class for this too, of course
     public BasketballPlayerStatisticsProfile toNewBasketballPlayerStatisticProfile() {
-        return new BasketballPlayerStatisticsProfile(new BasketballPlayerInfo(id.firstName, id.lastName),
-                new BasicBasketballPlayerStatistics(id.season, ppg, rpg, apg));
+        return new BasketballPlayerStatisticsProfile(new BasketballPlayerInfo(id.getFirstName(), id.getLastName()),
+                new BasicBasketballPlayerStatistics(id.getSeason(), ppg, rpg, apg));
     }
 }

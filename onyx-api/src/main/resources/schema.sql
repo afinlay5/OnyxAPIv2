@@ -9,7 +9,7 @@ create table player_statistic
     assists_per_game            float               not null,
     created_by_uuid             text                not null,
     created_timestamp           timestamp(6)        not null,
-    updated_by_guid             text                not null,
+    updated_by_uuid             text                not null,
     updated_timestamp           timestamp(6)        not null,
     primary key (first_name, last_name, season)
 );
