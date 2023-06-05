@@ -4,10 +4,11 @@ import com.onyx.commons.model.BasketballPlayerStatisticsDataStore;
 import com.onyx.dal.dao.entity.OnyxJpaDAOEntity;
 import com.onyx.dal.dao.orm.JPADialects;
 import com.onyx.dal.dao.orm.JPAVendorAdapters;
-import com.onyx.dal.ds.BasketballStatisticsRoutingDataSource;
+import com.onyx.dal.dao.orm.PersistenceProviders;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -40,9 +41,16 @@ public class JpaMultiDSConfig {
         requireMapNotEmpty(dataSourceConnectionDetails, "dataSourceConnectionDetails was required and is missing");
 
         val entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(
-                new BasketballStatisticsRoutingDataSource<>(dataSourceConnectionDetails)
-        );
+
+//        entityManagerFactoryBean.setDataSource(new BasketballStatisticsRoutingDataSource<>(dataSourceConnectionDetails));
+        entityManagerFactoryBean.setDataSource(DataSourceBuilder.create()
+                .driverClassName("org.h2.Driver")
+                .url("jdbc:h2:mem:testdb")
+                .username("sa")
+                .password("password")
+                .build());
+        entityManagerFactoryBean.setPersistenceProviderClass(
+                PersistenceProviders.valueOf(environment.getProperty("ds.persistenceProvider")).provider());
         entityManagerFactoryBean.setJpaDialect(JPADialects.valueOf(environment.getProperty("ds.jpaDialect")).dialect());
         entityManagerFactoryBean.setPackagesToScan(JPA_ENTITY_PACKAGE);
         entityManagerFactoryBean.setJpaProperties(additionalJpaProperties(environment));

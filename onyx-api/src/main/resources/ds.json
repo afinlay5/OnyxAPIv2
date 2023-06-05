@@ -2,8 +2,8 @@
   {
     "name": "MYDS1",
     "url": "jdbc:h2:mem:testdb",
-    "username": "OK",
-    "password": "OK",
+    "username": "sa",
+    "password": "password",
     "driverClassName": "org.h2.Driver",
     "hibernateDialect": "org.hibernate.dialect.H2Dialect"
   }

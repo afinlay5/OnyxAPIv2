@@ -4,18 +4,20 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
+import java.util.function.Supplier;
+
 public enum JPAVendorAdapters {
-    ECLIPSE_LINK_ADAPTER(new EclipseLinkJpaVendorAdapter()),
-    HIBERNATE_ADAPTER(new HibernateJpaVendorAdapter());
+    ECLIPSE_LINK_ADAPTER(EclipseLinkJpaVendorAdapter::new),
+    HIBERNATE_ADAPTER(HibernateJpaVendorAdapter::new);
 
 
-    private final JpaVendorAdapter jpaVendorAdapter;
+    private final Supplier<JpaVendorAdapter> jpaVendorAdapter;
 
-    JPAVendorAdapters(JpaVendorAdapter jpaVendorAdapter) {
+    JPAVendorAdapters(Supplier<JpaVendorAdapter> jpaVendorAdapter) {
         this.jpaVendorAdapter = jpaVendorAdapter;
     }
 
     public JpaVendorAdapter adapter() {
-        return jpaVendorAdapter;
+        return jpaVendorAdapter.get();
     }
 }
