@@ -64,6 +64,7 @@ public class BasketballPlayerStatisticEntity {
                 .id(BasketballPlayerStatisticID.builder()
                         .firstName(basketballPlayerInfo.firstName())
                         .lastName(basketballPlayerInfo.lastName())
+                        .season(basketballPlayerStatistics.season())
                         .build())
                 .ppg(basketballPlayerStatistics.ppg())
                 .rpg(basketballPlayerStatistics.rpg())
