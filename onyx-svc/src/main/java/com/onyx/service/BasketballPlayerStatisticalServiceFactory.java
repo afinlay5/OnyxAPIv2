@@ -1,12 +1,14 @@
 package com.onyx.service;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Getter
-@RequiredArgsConstructor
 @Service
 public final class BasketballPlayerStatisticalServiceFactory {
     private final NBAPlayerStatisticsService nbaPlayerStatisticsService;
+
+    public BasketballPlayerStatisticalServiceFactory(NBAPlayerStatisticsService nbaPlayerStatisticsService) {
+        this.nbaPlayerStatisticsService = nbaPlayerStatisticsService;
+    }
 }

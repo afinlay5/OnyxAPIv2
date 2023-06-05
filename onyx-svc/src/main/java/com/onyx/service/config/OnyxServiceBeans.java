@@ -1,11 +1,11 @@
 package com.onyx.service.config;
 
-import com.onyx.dal.config.OnyxDAOBeans;
+import com.onyx.dal.config.OnyxDALBeans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Import({
-        OnyxDAOBeans.class,
+        OnyxDALBeans.class,
         OnyxBasketballServiceBeans.class
 })
 @Configuration

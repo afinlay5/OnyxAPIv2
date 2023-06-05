@@ -1,6 +1,6 @@
 package com.onyx.dal;
 
-import com.onyx.commons.model.BasketballPlayerStatisticsDataStore;
+import com.onyx.commons.beans.BasketballPlayerStatisticsDataStoreContextContainer;
 import org.springframework.stereotype.Service;
 
 import static com.onyx.commons.util.Preconditions.requireNotNull;
@@ -20,8 +20,8 @@ public final class BasketballPlayerStatisticsDALFactory {
 
     }
 
-    public NBAPlayerStatisticsDAL getNbaPlayerStatisticsDAL(BasketballPlayerStatisticsDataStore dataStore) {
-        return switch (dataStore) {
+    public NBAPlayerStatisticsDAL getNbaPlayerStatisticsDAL() {
+        return switch (BasketballPlayerStatisticsDataStoreContextContainer.getContext()) {
             case MYDS1 -> nbaPlayerStatisticsDS1DALImpl;
             case MYDS2 -> nbaPlayerStatisticsDS2DALImpl;
         };

@@ -1,4 +1,4 @@
-package com.onyx.api.exception;
+package com.onyx.api.error;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -11,6 +11,15 @@ public enum BasketballPlayerStatisticsDataStore {
 
     @JsonCreator
     public static BasketballPlayerStatisticsDataStore fromFmtAgnosticString(String basketballPlayerStatisticsDataStore) {
+        var targetConstant = fromFmtAgnosticString(basketballPlayerStatisticsDataStore);
+        if (targetConstant == null) {
+            throw new IllegalArgumentException("Basketball Player Statistics Data Store does not exist");
+        } else {
+            return targetConstant;
+        }
+    }
+
+    public static BasketballPlayerStatisticsDataStore getFromFmtAgnosticString(String basketballPlayerStatisticsDataStore) {
         checkNotBlank(basketballPlayerStatisticsDataStore, "basketballPlayerStatisticsDataStore is required and missing");
 
         BasketballPlayerStatisticsDataStore targetConstant = null;
@@ -20,10 +29,6 @@ public enum BasketballPlayerStatisticsDataStore {
                 break;
             }
         }
-        if (targetConstant == null) {
-            throw new IllegalArgumentException("Basketball Player Statistics Data Store does not exist");
-        } else {
-            return targetConstant;
-        }
+        return targetConstant;
     }
 }

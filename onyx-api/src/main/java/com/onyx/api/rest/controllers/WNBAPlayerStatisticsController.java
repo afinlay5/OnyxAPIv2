@@ -1,4 +1,4 @@
-package com.onyx.api.controllers.nba;
+package com.onyx.api.rest.controllers;
 
 import com.onyx.service.BasketballPlayerStatisticalService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.onyx.api.exception;
+package com.onyx.api.error;
 
 import com.onyx.commons.exception.BasketballStatisticsNotFoundException;
 import com.onyx.commons.exception.OnyxInternalServerErrorException;

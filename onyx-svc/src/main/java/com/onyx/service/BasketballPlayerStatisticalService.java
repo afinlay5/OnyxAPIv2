@@ -1,7 +1,6 @@
 package com.onyx.service;
 
 import com.onyx.commons.model.BasketballPlayerInfo;
-import com.onyx.commons.model.BasketballPlayerStatisticsDataStore;
 import com.onyx.commons.model.BasketballPlayerStatisticsProfile;
 import com.onyx.commons.model.BasketballStatisticsDataSource;
 import com.onyx.commons.util.Preconditions;
@@ -15,13 +14,14 @@ import java.util.concurrent.CompletableFuture;
 import static com.onyx.service.validation.BasketballPlayerStatisticsProfileValidationUtil.validateBasicBasketballPlayerStaticsProfileRecord;
 
 @RequiredArgsConstructor
-@Slf4j
 @Service
+@Slf4j
 /** Retrieves and persists {@link BasketballPlayerStatisticsProfile} */
 public final class BasketballPlayerStatisticalService {
 
     //Factory Pattern
-    private final BasketballPlayerStatisticalServiceFactory basketballPlayerStatisticalServiceFactory;
+    private final BasketballPlayerStatisticalServiceFactory
+            basketballPlayerStatisticalServiceFactory;
 
     private final BasketballPlayerStatisticsDALFactory basketballPlayerStatisticsDALFactory;
 
@@ -44,10 +44,10 @@ public final class BasketballPlayerStatisticalService {
     }
 
     public CompletableFuture<BasketballPlayerStatisticsProfile> uploadNewBasketballPlayerStats(
-            BasketballPlayerStatisticsProfile basketballPlayerStatisticsProfile, BasketballPlayerStatisticsDataStore destinationDataStore) {
+            BasketballPlayerStatisticsProfile basketballPlayerStatisticsProfile) {
         validateBasicBasketballPlayerStaticsProfileRecord(basketballPlayerStatisticsProfile);
 
-        return basketballPlayerStatisticsDALFactory.getNbaPlayerStatisticsDAL(destinationDataStore)
+        return basketballPlayerStatisticsDALFactory.getNbaPlayerStatisticsDAL()
                 .persistBasketballPlayerStats(basketballPlayerStatisticsProfile);
     }
 

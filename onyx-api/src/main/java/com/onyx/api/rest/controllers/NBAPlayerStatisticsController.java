@@ -1,7 +1,6 @@
-package com.onyx.api.controllers.nba;
+package com.onyx.api.rest.controllers;
 
 import com.onyx.commons.model.BasketballPlayerInfo;
-import com.onyx.commons.model.BasketballPlayerStatisticsDataStore;
 import com.onyx.commons.model.BasketballPlayerStatisticsProfile;
 import com.onyx.commons.model.BasketballStatisticsDataSource;
 import com.onyx.service.BasketballPlayerStatisticalService;
@@ -28,7 +27,6 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 public final class NBAPlayerStatisticsController {
     private static final String NBA_DATA_SOURCE = "BASKETBALL_LEAGUE_DATA_SOURCE";
-    private static final String TARGET_DATA_STORE_DESTINATION = "TARGET_DATA_STORE_DESTINATION";
     private static final long BULK_UPLOAD_TIMEOUT_MILLISECONDS = 5 * 1000L;
     private final BasketballPlayerStatisticalService basketballPlayerStatisticalService;
 
@@ -63,9 +61,8 @@ public final class NBAPlayerStatisticsController {
 
     @PostMapping
     public CompletableFuture<BasketballPlayerStatisticsProfile> uploadNewBasketballPlayerStatisticsProfile(
-            @RequestBody BasketballPlayerStatisticsProfile newBasketballPlayerStatisticsProfile,
-            @RequestHeader(TARGET_DATA_STORE_DESTINATION) BasketballPlayerStatisticsDataStore targetDataStoreDestinationHeader) {
-        return basketballPlayerStatisticalService.uploadNewBasketballPlayerStats(newBasketballPlayerStatisticsProfile, targetDataStoreDestinationHeader)
+            @RequestBody BasketballPlayerStatisticsProfile newBasketballPlayerStatisticsProfile) {
+        return basketballPlayerStatisticalService.uploadNewBasketballPlayerStats(newBasketballPlayerStatisticsProfile)
                 .whenComplete((ignored, throwable) -> {
                     if (throwable != null) {
                         log.error("POST /api/nba - Oops! We had an Exception[{}]", throwable.getMessage());

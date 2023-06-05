@@ -1,4 +1,4 @@
-package com.onyx.onyx.it;
+package com.onyx.onyx.integration;
 
 import com.onyx.api.OnyxApiApplication;
 import org.junit.jupiter.api.Test;

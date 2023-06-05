@@ -1,6 +1,6 @@
 package com.onyx.api.config;
 
-import com.onyx.api.controllers.nba.NBAPlayerStatisticsController;
+import com.onyx.api.rest.controllers.NBAPlayerStatisticsController;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
