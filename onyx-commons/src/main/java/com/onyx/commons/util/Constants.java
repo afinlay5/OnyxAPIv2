@@ -1,7 +1,7 @@
 package com.onyx.commons.util;
 
 public final class Constants {
-
+    public static final String COMMON_THREAD_POOL = "COMMON_THREAD_POOL";
     public static final String DATA_SOURCE_CONNECTION_DETAILS = "DATA_SOURCE_CONNECTION_DETAILS";
     public static final String TARGET_DATA_STORE_DESTINATION = "TARGET_DATA_STORE_DESTINATION";
     public static final String URL_DELIMITER = "/";

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -560,9 +561,6 @@ public final class Preconditions {
         return val;
     }
 
-    private Preconditions() {
-    }
-
     /**
      * Validate that int {@code val} is positive
      *
@@ -595,5 +593,18 @@ public final class Preconditions {
         }
 
         return obj;
+    }
+
+    private Preconditions() {
+    }
+
+    /**
+     * Validates that ExecutorService {@code executor} is not null
+     *
+     * @param executor to validate
+     * @return {@code executor} if passed validation successfully
+     */
+    public static ExecutorService requireExecutorService(ExecutorService executor) {
+        return requireNotNull(executor, "executor");
     }
 }

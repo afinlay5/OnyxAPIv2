@@ -42,6 +42,7 @@ public class JpaMultiDSConfig {
 
         val entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 
+        //TODO - This is broken!
 //        entityManagerFactoryBean.setDataSource(new BasketballStatisticsRoutingDataSource<>(dataSourceConnectionDetails));
         entityManagerFactoryBean.setDataSource(DataSourceBuilder.create()
                 .driverClassName("org.h2.Driver")

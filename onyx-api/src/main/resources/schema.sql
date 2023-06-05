@@ -1,6 +1,7 @@
 create table player_statistic
 (
-    name                        text                not null,
+    first_name                  text                not null,
+    last_name                   text                not null,
     season                      integer             not null,
     dob                         date,
     points_per_game             float               not null,
@@ -10,5 +11,5 @@ create table player_statistic
     created_timestamp           timestamp(6)        not null,
     updated_by_guid             text                not null,
     updated_timestamp           timestamp(6)        not null,
-    primary key (name, season)
+    primary key (first_name, last_name, season)
 );
