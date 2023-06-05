@@ -7,8 +7,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.val;
 
 import java.time.LocalDateTime;
+
+import static com.onyx.commons.util.Preconditions.requireNotNull;
 
 @Entity
 @Table(name = "player_statistic")
@@ -39,6 +42,15 @@ public record BasketballPlayerStatisticEntity(
         @Column(name = "updated_timestamp")
         LocalDateTime updatedTimeStamp
 ) {
+    public static BasketballPlayerStatisticEntity fromBasketballPlayerStatisticsProfile(BasketballPlayerStatisticsProfile basketballPlayerStatisticsProfile) {
+        requireNotNull(basketballPlayerStatisticsProfile, "basketballPlayerStatisticsProfile");
+        val basketballPlayerStatistics = requireNotNull(basketballPlayerStatisticsProfile.basicBasketballPlayerStatistics(), "basketballPlayerStatistics");
+
+        return new BasketballPlayerStatisticEntity(BasketballPlayerStatisticID.builder().build(), null, basketballPlayerStatistics.getPpg(),
+                basketballPlayerStatistics.getRpg(), basketballPlayerStatistics.getApg(), "afinlay", LocalDateTime.now(), "afinlay", LocalDateTime.now());
+    }
+
+    //Note - You can use a mapper class for this too, of course
     public BasketballPlayerStatisticsProfile toNewBasketballPlayerStatisticProfile() {
         return new BasketballPlayerStatisticsProfile(new BasketballPlayerInfo(id.firstName, id.lastName),
                 new BasicBasketballPlayerStatistics(id.season, ppg, rpg, apg));

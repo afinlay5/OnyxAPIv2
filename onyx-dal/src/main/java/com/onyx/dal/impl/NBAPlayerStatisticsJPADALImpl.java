@@ -2,9 +2,9 @@ package com.onyx.dal.impl;
 
 import com.onyx.commons.model.BasketballPlayerStatisticsProfile;
 import com.onyx.dal.NBAPlayerStatisticsDAL;
+import com.onyx.dal.dao.entity.BasketballPlayerStatisticEntity;
 import com.onyx.dal.dao.jpa.repository.NBAPlayerStatisticsRepository;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -37,7 +37,15 @@ public class NBAPlayerStatisticsJPADALImpl implements NBAPlayerStatisticsDAL {
     public CompletableFuture<BasketballPlayerStatisticsProfile> persistBasketballPlayerStats(
             BasketballPlayerStatisticsProfile basketballPlayerStatisticsProfile) {
         log.info("Persisting NBA Player Statistics Profiles");
-        val
-        return CompletableFuture.supplyAsync(() -> nbaPlayerStatisticsRepository.saveAll(), executorService);
+        return CompletableFuture.supplyAsync(() -> nbaPlayerStatisticsRepository.save(
+                        BasketballPlayerStatisticEntity.fromBasketballPlayerStatisticsProfile(basketballPlayerStatisticsProfile)), executorService)
+                .thenApply(BasketballPlayerStatisticEntity::toNewBasketballPlayerStatisticProfile)
+                .whenComplete((ignored, throwable) -> {
+                    if (throwable != null) {
+                        log.error("PERSIST/ BasketballPlayerStatisticsProfile Oops! We had an Exception[{}]", throwable.getMessage());
+                    } else {
+                        log.info("PERSIST/ BasketballPlayerStatisticsProfile - Success!");
+                    }
+                });
     }
 }
