@@ -6,6 +6,9 @@
 
 4) Remaining javadocs
 
+5) JPA Multidatastore
+
+6) JDBC DAL
 
 
 //@Lombok.ToString -- Not supported for anything other than class/enum
