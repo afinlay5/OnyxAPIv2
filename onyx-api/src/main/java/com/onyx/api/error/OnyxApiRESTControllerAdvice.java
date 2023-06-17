@@ -17,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 @RestControllerAdvice
 public class OnyxApiRESTControllerAdvice {
-    private static final String BAD_REQUEST_TITLE = "Invalid Argument Supplied to OnyxAPI";
+    private static final String BAD_REQUEST_ERROR_TITLE = "Invalid Argument Supplied to OnyxAPI";
     private static final String INTERNAL_SERVER_ERROR_TITLE = "INTERNAL SERVER ERROR";
 
     /*** 400 *** /
@@ -34,7 +34,7 @@ public class OnyxApiRESTControllerAdvice {
         val request = requireHttpServletRequest(servletWebRequest.getRequest());
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
-                .withTitle(BAD_REQUEST_TITLE)
+                .withTitle(BAD_REQUEST_ERROR_TITLE)
                 .withStatus(HttpStatus.BAD_REQUEST.value())
                 .withDetail(exc.getMessage())
                 .withInstance(URI.create(request.getContextPath()))
@@ -55,13 +55,12 @@ public class OnyxApiRESTControllerAdvice {
         val request = requireHttpServletRequest(servletWebRequest.getRequest());
 
         return new ResponseEntity<>(OnyxApiProblemDetail.newBuilder()
-                .withTitle(BAD_REQUEST_TITLE)
+                .withTitle(BAD_REQUEST_ERROR_TITLE)
                 .withStatus(HttpStatus.BAD_REQUEST.value())
                 .withDetail(exc.getMessage())
                 .withInstance(URI.create(request.getContextPath()))
                 .build(), HttpStatus.BAD_REQUEST);
     }
-
 
     /*** 404 *** /
      /**
