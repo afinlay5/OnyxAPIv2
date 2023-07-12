@@ -22,8 +22,7 @@ public final class Preconditions {
     private static final String EXC_STR_MUST_BE_POSITIVE = "%s must be positive";
     private static final String EXC_STR_MUST_NOT_BE_NEGATIVE = "%s must be negative";
     private static final String EXC_STR_WITHIN_RANGE = " %s must be within range %d-%d";
-    private static final String IS_REQD_AND_MISSING = " %s is required and missing";
-
+    private static final String IS_REQUIRED_AND_MISSING = " %s is required and missing";
 
     /*
        Validations prefixed with check represent checks against Illegal Args supplied in an Application
@@ -52,24 +51,6 @@ public final class Preconditions {
         }
 
         return map;
-    }
-
-    /**
-     * Validate that Map is not null and contains keys
-     *
-     * @param map    {@link Map} to validate
-     * @param excStr Exception String supplied to IAE
-     * @param keys   keys to check for
-     * @param <K>    key Type
-     * @param <V>    value Type
-     * @return {@code map} if passed validation successfully
-     * @throws IllegalArgumentException if {@code map} is null or does not have keys
-     */
-    @SafeVarargs
-    public static <K, V> Map<K, V> checkMapHasKeys(Map<K, V> map, String excStr, K... keys) {
-        val set = Stream.of(checkArrayNotEmpty(keys, excStr))
-                .collect(Collectors.toUnmodifiableSet());
-        return checkMapHasKeys(map, set, excStr);
     }
 
     /**
@@ -112,6 +93,24 @@ public final class Preconditions {
             throw new IllegalArgumentException(excStr);
         }
         return map;
+    }
+
+    /**
+     * Validate that Map is not null and contains keys
+     *
+     * @param map    {@link Map} to validate
+     * @param excStr Exception String supplied to IAE
+     * @param keys   keys to check for
+     * @param <K>    key Type
+     * @param <V>    value Type
+     * @return {@code map} if passed validation successfully
+     * @throws IllegalArgumentException if {@code map} is null or does not have keys
+     */
+    @SafeVarargs
+    public static <K, V> Map<K, V> checkMapHasKeys(Map<K, V> map, String excStr, K... keys) {
+        val set = Stream.of(checkArrayNotEmpty(keys, excStr))
+                .collect(Collectors.toUnmodifiableSet());
+        return checkMapHasKeys(map, set, excStr);
     }
 
     /**
@@ -413,43 +412,10 @@ public final class Preconditions {
         return val;
     }
 
+
     /*
        Validations prefixed with require represent checks against Illegal State in an Application
      */
-
-    /**
-     * Validate that int {@code val} is within inclusive range of (@code from} - {@code to}
-     *
-     * @param val       to validate
-     * @param from      beginning of range, inclusive
-     * @param to        beginning of range, inclusive
-     * @param excSubStr Exception Substring supplied to IAE
-     * @throws IllegalArgumentException if {@code val} is not within range of {@code from} - {@code to}
-     */
-    public static void checkIsWithinClosedIntegerRange(int val, int from, int to, String excSubStr) {
-        checkNotNull(excSubStr, EXC_SUBSTR_MISSING_OR_EMPTY);
-
-        if (!Range.closed(from, to).contains(val))
-            throw new IllegalArgumentException(String.format(EXC_STR_WITHIN_RANGE, val, from, to));
-    }
-
-    /**
-     * Validate that Map is not null and contains keys
-     *
-     * @param map    {@link Map} to validate
-     * @param excStr Exception String supplied to IAE
-     * @param keys   keys to check for
-     * @param <K>    key Type
-     * @param <V>    value Type
-     * @return {@code map} if passed validation successfully
-     * @throws IllegalStateException if {@code map} is null or does not have keys
-     */
-    @SafeVarargs
-    public static <K, V> Map<K, V> requireMapHasKeys(Map<K, V> map, String excStr, K... keys) {
-        val set = Stream.of(requireArrayNotEmpty(keys, excStr))
-                .collect(Collectors.toUnmodifiableSet());
-        return requireMapHasKeys(map, set, excStr);
-    }
 
     /**
      * Validate that Map is not null or empty
@@ -463,6 +429,26 @@ public final class Preconditions {
      * @throws IllegalStateException if {@code map} is null or empty
      */
     public static <K, V, R extends Map<K, V>> R requireMapNotEmpty(R map, String excStr) {
+        requireNotBlank(excStr, EXC_STR_MISSING_OR_EMPTY);
+
+        if (map == null || map.isEmpty()) {
+            throw new IllegalStateException(excStr);
+        }
+        return map;
+    }
+
+    /**
+     * Validate that Map is not null or empty
+     *
+     * @param map    input  {@link Map}
+     * @param excStr Exception String supplied to IAE
+     * @param <K>    type of Map Key
+     * @param <V>    type of Map Value
+     * @param <R>    Map of a Type
+     * @return {@code map} if passed validation successfully
+     * @throws IllegalStateException if {@code map} is null or empty
+     */
+    public static <K, V, R extends Map<K, V>> R requirePopulatedMap(R map, String excStr) {
         requireNotBlank(excStr, EXC_STR_MISSING_OR_EMPTY);
 
         if (map == null || map.isEmpty()) {
@@ -494,6 +480,24 @@ public final class Preconditions {
     }
 
     /**
+     * Validate that Map is not null and contains keys
+     *
+     * @param map    {@link Map} to validate
+     * @param excStr Exception String supplied to IAE
+     * @param keys   keys to check for
+     * @param <K>    key Type
+     * @param <V>    value Type
+     * @return {@code map} if passed validation successfully
+     * @throws IllegalStateException if {@code map} is null or does not have keys
+     */
+    @SafeVarargs
+    public static <K, V> Map<K, V> requireMapHasKeys(Map<K, V> map, String excStr, K... keys) {
+        val set = Stream.of(requireArrayNotEmpty(keys, excStr))
+                .collect(Collectors.toUnmodifiableSet());
+        return requireMapHasKeys(map, set, excStr);
+    }
+
+    /**
      * Validate that CharSequence is not null or blank
      *
      * @param val    {@link  CharSequence} to validate
@@ -515,7 +519,7 @@ public final class Preconditions {
      * Validate that Collection is not null or empty
      *
      * @param collection input (@link Collection}
-     * @param excStr     Exception String supplied to IAE
+     * @param excStr     Exception String supplied to ISE
      * @param <T>        type contained in Collection
      * @param <R>        Collection of a Type
      * @return {@code collection} if passed validation successfully
@@ -531,10 +535,29 @@ public final class Preconditions {
     }
 
     /**
+     * Validate that T {@code obj} is not null;
+     *
+     * @param obj       to validate
+     * @param excSubStr Exception String supplied to NPE
+     * @param <T>       input obj type
+     * @return {@code obj} if passed validation successfully
+     * @throws NullPointerException  is {@code obj} is missing
+     * @throws IllegalStateException is {@code excStr} is missing or empty
+     */
+    public static <T> T requireNotNull(T obj, String excSubStr) {
+        requireNotBlank(excSubStr, EXC_SUBSTR_MISSING_OR_EMPTY);
+        if (obj == null) {
+            throw new NullPointerException(String.format(IS_REQUIRED_AND_MISSING, excSubStr));
+        }
+
+        return obj;
+    }
+
+    /**
      * Validate that Array is not null or empty
      *
      * @param array  to validate
-     * @param excStr Exception String supplied to IAE
+     * @param excStr Exception String supplied to ISE
      * @param <T>    array Type
      * @return {@code array} if passed validation successfully
      * @throws IllegalStateException if {@code array} is null or empty
@@ -547,10 +570,20 @@ public final class Preconditions {
     }
 
     /**
+     * Validates that ExecutorService {@code executor} is not null
+     *
+     * @param executor to validate
+     * @return {@code executor} if passed validation successfully
+     */
+    public static ExecutorService requireExecutorService(ExecutorService executor) {
+        return requireNotNull(executor, "executor");
+    }
+
+    /**
      * Validate that int {@code val} is not negative
      *
      * @param val       to validate
-     * @param excSubStr Exception Substring supplied to IAE
+     * @param excSubStr Exception Substring supplied to ISE
      * @return {@code val} if passed validation successfully
      * @throws IllegalStateException if {@code val} is negative
      */
@@ -565,7 +598,7 @@ public final class Preconditions {
      * Validate that int {@code val} is positive
      *
      * @param val       to validate
-     * @param excSubStr Exception Substring supplied to IAE
+     * @param excSubStr Exception Substring supplied to ISE
      * @return {@code val} if passed validation successfully
      * @throws IllegalStateException if {@code val} is not positive
      */
@@ -577,34 +610,21 @@ public final class Preconditions {
     }
 
     /**
-     * Validate that T {@code obj} is not null;
+     * Validate that int {@code val} is within inclusive range of (@code from} - {@code to}
      *
-     * @param obj       to validate
-     * @param excSubStr Exception String supplied to NPE
-     * @param <T>       input obj type
-     * @return {@code obj} if passed validation successfully
-     * @throws NullPointerException  is {@code obj} is missing
-     * @throws IllegalStateException is {@code excStr} is missing or empty
+     * @param val       to validate
+     * @param from      beginning of range, inclusive
+     * @param to        beginning of range, inclusive
+     * @param excSubStr Exception Substring supplied to IAE
+     * @throws IllegalArgumentException if {@code val} is not within range of {@code from} - {@code to}
      */
-    public static <T> T requireNotNull(T obj, String excSubStr) {
-        requireNotBlank(excSubStr, EXC_SUBSTR_MISSING_OR_EMPTY);
-        if (obj == null) {
-            throw new NullPointerException(String.format(IS_REQD_AND_MISSING, excSubStr));
-        }
+    public static void checkIsWithinClosedIntegerRange(int val, int from, int to, String excSubStr) {
+        checkNotNull(excSubStr, EXC_SUBSTR_MISSING_OR_EMPTY);
 
-        return obj;
+        if (!Range.closed(from, to).contains(val))
+            throw new IllegalArgumentException(String.format(EXC_STR_WITHIN_RANGE, val, from, to));
     }
 
     private Preconditions() {
-    }
-
-    /**
-     * Validates that ExecutorService {@code executor} is not null
-     *
-     * @param executor to validate
-     * @return {@code executor} if passed validation successfully
-     */
-    public static ExecutorService requireExecutorService(ExecutorService executor) {
-        return requireNotNull(executor, "executor");
     }
 }
