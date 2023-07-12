@@ -6,9 +6,9 @@ import com.onyx.commons.model.BasketballStatisticsDataSource;
 import com.onyx.dal.BasketballPlayerStatisticsDALFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
 import java.util.SortedSet;
 import java.util.concurrent.CompletableFuture;
 
@@ -55,7 +55,7 @@ public final class BasketballPlayerStatisticsService {
                 .persistBasketballPlayerStats(basketballPlayerStatisticsProfile);
     }
 
-    public CompletableFuture<SortedSet<BasketballPlayerStatisticsProfile>> uploadStatisticsProfiles(InputStream inputStream) {
+    public CompletableFuture<SortedSet<BasketballPlayerStatisticsProfile>> uploadStatisticsProfiles(ByteArrayOutputStream inputStream) {
         return null; //TODO
     }
 }

@@ -10,6 +10,7 @@
 
 6) JDBC DAL
 
+7) Share common details in gradle build and settings scripts
 
 //@Lombok.ToString -- Not supported for anything other than class/enum
 //@Lombok. EqualsAndHashCode -- only supported for a class

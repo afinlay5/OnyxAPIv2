@@ -1,5 +1,6 @@
 plugins {
-    java
+    id("java")
+    id("java-library")
 }
 
 group = "com.onyx"
@@ -19,6 +20,8 @@ dependencies {
 
     implementation(project(":onyx-commons"))
     implementation(project(":onyx-dal"))
+
+    api("commons-io:commons-io:2.11.0")
 
     implementation("com.google.guava:guava:32.0.0-jre") //TODO get specific modules only (ImmutableList)
     implementation("org.apache.commons:commons-lang3:3.12.0") // //TODO get specific modules only (NotImplementedException)
