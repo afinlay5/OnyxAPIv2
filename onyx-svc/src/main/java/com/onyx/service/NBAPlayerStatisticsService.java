@@ -2,7 +2,6 @@ package com.onyx.service;
 
 import com.onyx.commons.model.BasicBasketballPlayerStatistics;
 import com.onyx.commons.model.BasketballStatisticsDataSource;
-import com.onyx.commons.util.Preconditions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -12,7 +11,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.concurrent.CompletableFuture;
 
-import static java.util.Objects.requireNonNull;
+import static com.onyx.commons.util.Preconditions.checkIsWithinClosedIntegerRange;
+import static com.onyx.commons.util.Preconditions.requireNotBlank;
+import static com.onyx.commons.util.Preconditions.requireNotNull;
 
 /* Retrieves NBA Player Statistics */
 
@@ -39,10 +40,10 @@ public final class NBAPlayerStatisticsService implements BasketballLeaguePlayerS
                                                                                   String firstName, String lastName, int season) {
         log.info("J1 - #3A) We were delegated to NBA Player Statistic Service based on our context");
 
-        requireNonNull(basketballStatisticsDataSource, "basketballStatisticsDataSource is required and missing");
-        Preconditions.requireNotBlank(firstName, "firstName is required and missing");
-        Preconditions.requireNotBlank(lastName, "lastName is required and missing");
-        Preconditions.checkIsWithinClosedIntegerRange(season, NBA_MINIMUM_SEASON_YEAR, NBA_MAXIMUM_SEASON_YEAR, "Season");
+        requireNotNull(basketballStatisticsDataSource, "basketballStatisticsDataSource");
+        requireNotBlank(firstName, "firstName is required and missing");
+        requireNotBlank(lastName, "lastName is required and missing");
+        checkIsWithinClosedIntegerRange(season, NBA_MINIMUM_SEASON_YEAR, NBA_MAXIMUM_SEASON_YEAR, "Season");
 
         log.info("J1 - #3B) We passed validation inside our NBA Player Statistic Service");
 

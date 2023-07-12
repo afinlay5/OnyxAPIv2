@@ -9,16 +9,13 @@ import java.util.Optional;
 /**
  * Helper containing common operations & constants for text processing
  */
-
 public final class TextProcessingHelper {
-    public static final String DEFAULT_CSV_MIME_TYPE_STR = "text/csv";
-    public static final String DEFAULT_CSV_LINE_DELIMITER = "\r\n";
-    public static final char DEFAULT_CSV_FIELD_DELIMITER = ',';
     private static final String DEFAULT_CSV_CHARSET_STR = "UTF-8";
     public static final MediaType DEFAULT_CSV_MEDIA_TYPE = MediaType.parse(DEFAULT_CSV_CHARSET_STR);
-
-    private TextProcessingHelper() {
-    }
+    public static final String CSV_FILE_EXT = ".csv";
+    public static final String DEFAULT_CSV_LINE_DELIMITER = "\r\n";
+    public static final String DEFAULT_CSV_MIME_TYPE_STR = "text/csv";
+    public static final char DEFAULT_CSV_FIELD_DELIMITER = ',';
 
     /**
      * Retrieves UTF-* Charset
@@ -29,5 +26,8 @@ public final class TextProcessingHelper {
     public static Charset getDefaultCharacterEncoding() {
         return Optional.ofNullable(Charset.availableCharsets().get(DEFAULT_CSV_CHARSET_STR))
                 .orElseThrow(() -> new UnsupportedCharsetException(DEFAULT_CSV_CHARSET_STR + " is not supported by this platform"));
+    }
+
+    private TextProcessingHelper() {
     }
 }

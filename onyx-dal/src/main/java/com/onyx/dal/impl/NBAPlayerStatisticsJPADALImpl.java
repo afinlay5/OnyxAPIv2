@@ -24,7 +24,7 @@ public class NBAPlayerStatisticsJPADALImpl implements NBAPlayerStatisticsDAL {
     public NBAPlayerStatisticsJPADALImpl(ExecutorService executorService,
                                          NBAPlayerStatisticsRepository nbaPlayerStatisticsRepository) {
         this.executorService = requireExecutorService(executorService);
-        this.nbaPlayerStatisticsRepository = requireNotNull(nbaPlayerStatisticsRepository, "nbaPlayerStatisticsRepository is required and missing");
+        this.nbaPlayerStatisticsRepository = requireNotNull(nbaPlayerStatisticsRepository, "nbaPlayerStatisticsRepository");
     }
 
     /**

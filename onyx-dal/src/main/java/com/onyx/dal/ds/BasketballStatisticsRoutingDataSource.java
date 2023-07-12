@@ -8,12 +8,12 @@ import javax.sql.DataSource;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.requireNonNull;
+import static com.onyx.commons.util.Preconditions.requireNotNull;
 
 public class BasketballStatisticsRoutingDataSource<T> extends AbstractRoutingDataSource {
 
     public BasketballStatisticsRoutingDataSource(Map<T, DataSource> dataSources) {
-        requireNonNull(dataSources, "dataSources is required and missing");
+        requireNotNull(dataSources, "dataSources");
 
         //java is a little ridiculous for this...
         setTargetDataSources(dataSources.entrySet().stream()

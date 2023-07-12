@@ -6,20 +6,17 @@ import com.onyx.commons.model.BasketballStatisticsDataSource;
 import com.onyx.service.BasketballPlayerStatisticsService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.concurrent.CompletableFuture;
 
+import static com.onyx.api.util.Constants.HTTP_HEADER_MULTIPART_CONTENT_TYPE;
 import static com.onyx.commons.util.Constants.TARGET_DATA_STORE_DESTINATION;
-import static java.util.Objects.requireNonNull;
+import static com.onyx.commons.util.Preconditions.requireNotNull;
 
 //TODO - Swagger
 
@@ -33,8 +30,8 @@ public final class NBAPlayerStatisticsController {
     private final BasketballPlayerStatisticsService basketballPlayerStatisticsService;
 
     public NBAPlayerStatisticsController(BasketballPlayerStatisticsService basketballPlayerStatisticsService) {
-        this.basketballPlayerStatisticsService = requireNonNull(basketballPlayerStatisticsService,
-                "basketballStatisticService is required and missing");
+        this.basketballPlayerStatisticsService = requireNotNull(basketballPlayerStatisticsService,
+                "basketballStatisticService");
     }
 
     @GetMapping
@@ -62,7 +59,7 @@ public final class NBAPlayerStatisticsController {
     }
 
     @PostMapping
-    public CompletableFuture<BasketballPlayerStatisticsProfile> uploadNewBasketballPlayerStatisticsProfile(
+    public CompletableFuture<BasketballPlayerStatisticsProfile> upload(
             @RequestBody BasketballPlayerStatisticsProfile newBasketballPlayerStatisticsProfile,
             @RequestHeader(TARGET_DATA_STORE_DESTINATION) String targetDataStoreDestination) {
         return basketballPlayerStatisticsService.uploadNewBasketballPlayerStats(newBasketballPlayerStatisticsProfile)
@@ -75,10 +72,24 @@ public final class NBAPlayerStatisticsController {
                 });
     }
 
-    @PostMapping("/upload")
-    public DeferredResult<SortedSet<BasketballPlayerStatisticsProfile>> bulkUploadNewBasketballPlayerStatisticsProfile() {
+    @PostMapping(value = "/upload", headers = HTTP_HEADER_MULTIPART_CONTENT_TYPE)
+    public DeferredResult<SortedSet<BasketballPlayerStatisticsProfile>> upload(
+            @RequestParam("file") MultipartFile multipartFile,
+            @RequestHeader Map<String, String> headers) {
+
         val deferredResult = new DeferredResult<SortedSet<BasketballPlayerStatisticsProfile>>(BULK_UPLOAD_TIMEOUT_MILLISECONDS);
 
+        basketballPlayerStatisticsService.uploadStatisticsProfiles(null)
+                .thenApply(response ->
+                        deferredResult.setResult(response)
+                )
+                .whenComplete((ignored, throwable) -> {
+                    if (throwable != null) {
+                        log.error("POST /api/nba - Oops! We had an Exception[{}]", throwable.getMessage());
+                    } else {
+                        log.info("POST /api/nba - Success!");
+                    }
+                });
         return deferredResult;
     }
 

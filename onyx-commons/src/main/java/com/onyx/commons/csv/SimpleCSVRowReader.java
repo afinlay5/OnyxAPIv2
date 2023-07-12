@@ -58,7 +58,7 @@ public final class SimpleCSVRowReader {
      * @return new Instance of SimpleCSVRowReader
      */
     public static SimpleCSVRowReader from(Reader source) {
-        checkNotNull(source, "Data Source is required and missing");
+        checkNotNull(source, "Data Source");
         try {
             var stringWriter = new StringWriter();
             source.transferTo(stringWriter);

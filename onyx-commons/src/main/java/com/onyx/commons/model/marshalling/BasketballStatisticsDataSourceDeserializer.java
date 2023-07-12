@@ -11,7 +11,7 @@ import lombok.val;
 import java.io.IOException;
 
 import static com.onyx.commons.util.Preconditions.checkNotBlank;
-import static java.util.Objects.requireNonNull;
+import static com.onyx.commons.util.Preconditions.requireNotNull;
 
 /**
  * Performs stripping and case-insensitive deserialization of {@link BasketballStatisticsDataSource}
@@ -73,7 +73,7 @@ public class BasketballStatisticsDataSourceDeserializer extends JsonDeserializer
     @Override
     public BasketballStatisticsDataSource deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
             throws IOException {
-        requireNonNull(jsonParser, "jsonParser is required and missing");
+        requireNotNull(jsonParser, "jsonParser");
 
         val jsonNode = jsonParser.getCodec().readTree(jsonParser);
         val dataSource = checkNotBlank(((TextNode) jsonNode).asText(), "BasketballStatisticsDataSource is required and missing");

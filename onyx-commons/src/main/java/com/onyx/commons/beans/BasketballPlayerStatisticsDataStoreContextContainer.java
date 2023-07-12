@@ -2,7 +2,7 @@ package com.onyx.commons.beans;
 
 import com.onyx.commons.model.BasketballPlayerStatisticsDataStore;
 
-import static java.util.Objects.requireNonNull;
+import static com.onyx.commons.util.Preconditions.requireNotNull;
 
 public class BasketballPlayerStatisticsDataStoreContextContainer {
     private static final ThreadLocal<BasketballPlayerStatisticsDataStore> DELEGATE = new ThreadLocal<>();
@@ -16,7 +16,7 @@ public class BasketballPlayerStatisticsDataStoreContextContainer {
 
     public static void set(BasketballPlayerStatisticsDataStore dataStore) {
         BasketballPlayerStatisticsDataStoreContextContainer.unload();
-        requireNonNull(dataStore, "dataStore is required and missing");
+        requireNotNull(dataStore, "dataStore");
         DELEGATE.set(dataStore);
     }
 

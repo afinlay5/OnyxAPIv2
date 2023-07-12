@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static java.util.Objects.requireNonNull;
+import static com.onyx.commons.util.Preconditions.requireNotNull;
 
 //TODO - Swagger
 
@@ -19,8 +19,8 @@ public final class WNBAPlayerStatisticsController {
     private final BasketballPlayerStatisticsService basketballPlayerStatisticsService;
 
     public WNBAPlayerStatisticsController(BasketballPlayerStatisticsService basketballPlayerStatisticsService) {
-        this.basketballPlayerStatisticsService = requireNonNull(basketballPlayerStatisticsService,
-                "basketballStatisticService is required and missing");
+        this.basketballPlayerStatisticsService = requireNotNull(basketballPlayerStatisticsService,
+                "basketballStatisticService");
     }
 
     @GetMapping

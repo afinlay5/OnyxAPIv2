@@ -62,7 +62,7 @@ public record CSVPOJOParseResult<T>(
         private final Map<CSVTextRow, String> csvRowToError;
 
         public CSVRowToErrorResultSet(Map<CSVTextRow, String> csvRowToError) {
-            requireNotNull(csvRowToError, "csvRowToError is required and missing");
+            requireNotNull(csvRowToError, "csvRowToError");
             this.csvRowToError = Collections.unmodifiableMap(new LinkedHashMap<>(csvRowToError));
         }
 

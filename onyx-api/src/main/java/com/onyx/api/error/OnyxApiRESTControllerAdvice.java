@@ -13,7 +13,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import java.net.URI;
 
-import static java.util.Objects.requireNonNull;
+import static com.onyx.commons.util.Preconditions.requireNotNull;
 
 @RestControllerAdvice
 public class OnyxApiRESTControllerAdvice {
@@ -127,6 +127,6 @@ public class OnyxApiRESTControllerAdvice {
     }
 
     private HttpServletRequest requireHttpServletRequest(HttpServletRequest request) {
-        return requireNonNull(request, "request is required but is missing");
+        return requireNotNull(request, "request");
     }
 }

@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
+import static com.onyx.commons.util.Preconditions.requireNotNull;
 
 public final class JSONToDataStoreDetailsUtil {
 
@@ -21,7 +21,7 @@ public final class JSONToDataStoreDetailsUtil {
     }
 
     public static List<DataStoreDetails> parseDataStoreDetailsFromJsonResource(URL dataStoreJsonResource) {
-        requireNonNull(dataStoreJsonResource, "dataStoreJsonResource is required and missing");
+        requireNotNull(dataStoreJsonResource, "dataStoreJsonResource");
         try (val jsonReader = new BufferedReader(new InputStreamReader(dataStoreJsonResource.openStream()))) {
             val typeToken = new TypeToken<ArrayList<DataStoreDetails>>() {
             }.getType();

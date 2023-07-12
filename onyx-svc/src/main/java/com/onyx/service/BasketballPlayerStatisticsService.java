@@ -3,15 +3,18 @@ package com.onyx.service;
 import com.onyx.commons.model.BasketballPlayerInfo;
 import com.onyx.commons.model.BasketballPlayerStatisticsProfile;
 import com.onyx.commons.model.BasketballStatisticsDataSource;
-import com.onyx.commons.util.Preconditions;
 import com.onyx.dal.BasketballPlayerStatisticsDALFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.util.SortedSet;
 import java.util.concurrent.CompletableFuture;
 
+import static com.onyx.commons.util.Preconditions.checkIsPositive;
 import static com.onyx.commons.util.Preconditions.checkNotBlank;
+import static com.onyx.commons.util.Preconditions.checkNotNull;
 import static com.onyx.service.validation.BasketballPlayerStatisticsProfileValidationUtil.validateBasicBasketballPlayerStaticsProfileRecord;
 
 @RequiredArgsConstructor
@@ -28,11 +31,11 @@ public final class BasketballPlayerStatisticsService {
 
     public CompletableFuture<BasketballPlayerStatisticsProfile> getNBABasicStats(BasketballStatisticsDataSource basketballStatisticsDataSource,
                                                                                  BasketballPlayerInfo basketballPlayerInfo, int season) {
-        Preconditions.checkNotNull(basketballStatisticsDataSource, "basketballStatisticsDataSource is required and missing");
-        Preconditions.checkNotNull(basketballPlayerInfo, "basketballPlayerInfo is required and missing");
+        checkNotNull(basketballStatisticsDataSource, "basketballStatisticsDataSource");
+        checkNotNull(basketballPlayerInfo, "basketballPlayerInfo");
         checkNotBlank(basketballPlayerInfo.firstName(), "Basketball Player Info must include a First name");
         checkNotBlank(basketballPlayerInfo.lastName(), "Basketball Player Info must include a Last name");
-        Preconditions.checkIsPositive(season, "season");
+        checkIsPositive(season, "Season");
 
         log.info("J1 - #2A) Hit BasketballStatisticsService and successfully validated basketballStatisticsDataSource, basketballPlayerInfo");
         log.info("J1 - #2B) Now we are delegating to the Basketball Statistics Service Factory....");
@@ -52,4 +55,7 @@ public final class BasketballPlayerStatisticsService {
                 .persistBasketballPlayerStats(basketballPlayerStatisticsProfile);
     }
 
+    public CompletableFuture<SortedSet<BasketballPlayerStatisticsProfile>> uploadStatisticsProfiles(InputStream inputStream) {
+        return null; //TODO
+    }
 }

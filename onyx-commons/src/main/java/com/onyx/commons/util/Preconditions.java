@@ -185,17 +185,17 @@ public final class Preconditions {
     /**
      * Validate that value is not null
      *
-     * @param val    input Object
-     * @param excStr Exception String supplied to IAE
-     * @param <T>    object Type
+     * @param val       input Object
+     * @param excSubStr Exception String supplied to IAE
+     * @param <T>       object Type
      * @return {@code val} if passed validation successfully
      * @throws IllegalArgumentException if {@code val} is null
      */
-    public static <T> T checkNotNull(T val, String excStr) {
-        checkNotBlank(excStr, EXC_STR_MISSING_OR_EMPTY);
+    public static <T> T checkNotNull(T val, String excSubStr) {
+        checkNotBlank(excSubStr, EXC_SUBSTR_MISSING_OR_EMPTY);
 
         if (val == null) {
-            throw new IllegalArgumentException(excStr);
+            throw new IllegalArgumentException(excSubStr + " is required and missing");
         }
         return val;
     }
