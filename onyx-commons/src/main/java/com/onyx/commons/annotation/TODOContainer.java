@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /* Container for Repeatable {@link TODO} Annotation*/
 @SuppressWarnings("java:S1135")
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @interface TODOContainer {
     TODO[] value();
 }
